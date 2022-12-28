@@ -1,6 +1,8 @@
 package com.epay.EPayment;
 
 import com.epay.EPayment.API.Initializer;
+import com.epay.EPayment.API.UserAPI;
+import com.epay.EPayment.Models.Customer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

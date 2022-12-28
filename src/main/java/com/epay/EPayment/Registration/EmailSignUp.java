@@ -22,7 +22,6 @@ public class EmailSignUp implements SignUp {
         checkEmail(user);
         checkUsername(user);
         userController.addUser(user);
-        System.out.println("User Registered Successfully :)");
     }
 
 }

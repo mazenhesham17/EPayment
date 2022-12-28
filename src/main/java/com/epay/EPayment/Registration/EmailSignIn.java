@@ -23,7 +23,6 @@ public class EmailSignIn implements SignIn {
     public User signIn(User user) throws Exception {
         checkEmail(user);
         user = checkPassword(user);
-        System.out.println("Welcome " + user.getUsername() + " :)");
         return user;
     }
 
