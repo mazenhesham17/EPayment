@@ -70,7 +70,17 @@ public abstract class Service {
         FormDataController formDataController = FormDataController.getInstance();
         formDataController.setFormData(formData);
         String cost = formDataController.getData(key);
+        if(cost==null)
+            return 0;
         return Double.parseDouble(cost);
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public String getCurrentCompany() {
+        return currentCompany;
     }
 
     public abstract Service clone(int index);

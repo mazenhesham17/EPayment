@@ -3,14 +3,12 @@ package com.epay.EPayment.API;
 import com.epay.EPayment.Controller.AdminController;
 import com.epay.EPayment.Controller.CustomerController;
 import com.epay.EPayment.Controller.UserController;
-import com.epay.EPayment.Models.Admin;
-import com.epay.EPayment.Models.Customer;
-import com.epay.EPayment.Models.Response;
-import com.epay.EPayment.Models.User;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import com.epay.EPayment.Models.*;
+import com.epay.EPayment.Search.ConcreteSearch;
+import com.epay.EPayment.Search.Search;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Vector;
 
 @RestController
 public class UserAPI {
@@ -66,6 +64,11 @@ public class UserAPI {
         response.setStatus(true);
         response.setMessage("User Signed out successfully :(");
         return response ;
+    }
+    @GetMapping("/service")
+    public Vector<Service> getService(){
+        Search search = new ConcreteSearch() ;
+        return search.listAll() ;
     }
 
 }

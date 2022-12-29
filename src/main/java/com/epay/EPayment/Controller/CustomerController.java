@@ -51,22 +51,14 @@ public class CustomerController {
         return result;
     }
 
-    public Vector<Service> searchServices(String sub) {
-        ServiceController serviceController = ServiceController.getInstance();
+    public Vector<Service> searchServices(String sub) throws Exception {
         Search search = new ConcreteSearch();
-        Vector<Service> result = search.find(sub);
-        serviceController.showServices(result);
-        return result;
+        return search.find(sub);
     }
 
     public Service chooseService(Vector<Service> services, int index) {
         ServiceController serviceController = ServiceController.getInstance();
         return serviceController.chooseService(services, index);
-    }
-
-    public void showProfile() {
-        CustomerView customerView = CustomerView.getInstance();
-        customerView.showProfile();
     }
 
     public CreditCard getCard(int index) {

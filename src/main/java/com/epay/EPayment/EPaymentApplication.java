@@ -14,7 +14,6 @@ public class EPaymentApplication {
         SpringApplication.run(EPaymentApplication.class, args);
         Initializer initializer = new Initializer();
     }
-
 }
 
 // http://localhost:8080

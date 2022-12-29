@@ -7,7 +7,7 @@ import java.util.Vector;
 
 public class ConcreteSearch implements Search {
     @Override
-    public Vector<Service> find(String sub) {
+    public Vector<Service> find(String sub) throws Exception {
         Vector<Service> result = new Vector<>();
         ServiceData serviceData = ServiceData.getInstance();
         Vector<Service> categories = serviceData.getServices();
@@ -20,6 +20,9 @@ public class ConcreteSearch implements Search {
                     result.add(concreteService);
                 }
             }
+        }
+        if(result.isEmpty()){
+            throw new Exception("There is no result :(") ;
         }
         return result;
     }
