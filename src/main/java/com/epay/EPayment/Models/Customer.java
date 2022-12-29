@@ -24,10 +24,10 @@ public class Customer extends User {
         discountData = new DiscountData();
         DiscountController discountController = DiscountController.getInstance();
         discountController.setDiscountData(discountData);
-        discountController.addCategory(new MobileRechargeService());
-        discountController.addCategory(new InternetPaymentService());
-        discountController.addCategory(new LandlineService());
-        discountController.addCategory(new DonationsService());
+        discountController.addCategory(new MobileRechargeService("Mobile Recharge", "Amount", new Vector<>()));
+        discountController.addCategory(new InternetPaymentService("Internet Payment", "Internet bundle", new Vector<>()));
+        discountController.addCategory(new LandlineService("Landline", "Landline Bill", new Vector<>()));
+        discountController.addCategory(new DonationsService("Donation", "Monthly Donation", new Vector<>()));
     }
 
     public DiscountData getDiscountData() {

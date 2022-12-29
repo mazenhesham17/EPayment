@@ -13,18 +13,9 @@ import java.util.Vector;
 
 public class UserController {
     static UserController userController = null;
+    User user;
 
     private UserController() {
-    }
-
-    User user ;
-
-
-    public String getUsername(){
-        return user.getUsername() ;
-    }
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public static UserController getInstance() {
@@ -33,8 +24,12 @@ public class UserController {
         return userController;
     }
 
-    public boolean isSigned(){
-        return user != null ;
+    public String getUsername() {
+        return user.getUsername();
+    }
+
+    public boolean isSigned() {
+        return user != null;
     }
 
     public void addUser(User user) {
@@ -80,35 +75,39 @@ public class UserController {
         return user;
     }
 
-    public boolean isAdmin(){
-        return user instanceof Admin ;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public boolean isCustomer(){
-        return user instanceof Customer ;
+    public boolean isAdmin() {
+        return user instanceof Admin;
+    }
+
+    public boolean isCustomer() {
+        return user instanceof Customer;
     }
 
     public void signIn(User user) throws Exception {
-        if ( isSigned() ){
-            throw new Exception("There is already signed user :(") ;
+        if (isSigned()) {
+            throw new Exception("There is already signed user :(");
         }
         SignIn signIn = new EmailSignIn();
-        this.user = signIn.signIn(user) ;
+        this.user = signIn.signIn(user);
     }
 
     public void signUp(User user) throws Exception {
-        if ( isSigned() ){
-            throw new Exception("There is already signed user :(") ;
+        if (isSigned()) {
+            throw new Exception("There is already signed user :(");
         }
         SignUp signUp = new EmailSignUp();
         signUp.signUp(user);
     }
 
     public void signOut() throws Exception {
-        if ( user == null ){
-            throw new Exception("You are already signed out") ;
+        if (user == null) {
+            throw new Exception("You are already signed out");
         }
-        user = null ;
+        user = null;
     }
 
     public Vector<Customer> getCustomers() {

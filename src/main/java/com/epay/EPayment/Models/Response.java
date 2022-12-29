@@ -1,10 +1,10 @@
 package com.epay.EPayment.Models;
 
 public class Response<T> {
-    boolean status ;
-    String message ;
+    boolean status;
+    String message;
 
-    T object ;
+    T object;
 
     public boolean isStatus() {
         return status;

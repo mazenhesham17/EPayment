@@ -1,18 +1,23 @@
 package com.epay.EPayment.Service;
 
 import com.epay.EPayment.Controller.FormController;
-import com.epay.EPayment.Controller.PaymentController;
-import com.epay.EPayment.Controller.ServiceController;
+import com.epay.EPayment.Models.Payment;
 import com.epay.EPayment.Models.Service;
 
+import java.util.Vector;
+
 public class InternetPaymentService extends Service {
-    public InternetPaymentService(InternetPaymentService internetPaymentService){
-        super.setCategoryName(internetPaymentService.getCategoryName());
-        setKey(internetPaymentService.getKey());
-        formInitializer();
-        setCompanyName(internetPaymentService.getCompanyName());
-        paymentInitializer();
+
+    public InternetPaymentService(String categoryName, String key, Vector<Payment> payments) {
+        super(categoryName, key, payments);
     }
+
+    public InternetPaymentService(InternetPaymentService internetPaymentService) {
+        super(internetPaymentService.getCategoryName(), internetPaymentService.getKey(), internetPaymentService.getPayments());
+        formInitializer();
+
+    }
+
     @Override
     protected void formInitializer() {
         FormController formController = FormController.getInstance();
@@ -21,26 +26,6 @@ public class InternetPaymentService extends Service {
         formController.addField("Internet bundle", new String[]{
                 "120", "170", "340", "500"
         });
-    }
-    @Override
-    protected void paymentInitializer() {
-        ServiceController serviceController = ServiceController.getInstance();
-        PaymentController paymentController = PaymentController.getInstance();
-        serviceController.addPaymentMethod(paymentController.getPayment(1));
-        serviceController.addPaymentMethod(paymentController.getPayment(2));
-    }
-
-    public InternetPaymentService() {
-        super.setCategoryName("Internet Payment");
-        setKey("Internet bundle");
-        formInitializer();
-        ServiceController serviceController = ServiceController.getInstance();
-        serviceController.setService(this);
-        serviceController.addCompany("Etisalat");
-        serviceController.addCompany("Vodafone");
-        serviceController.addCompany("Orange");
-        serviceController.addCompany("We");
-        paymentInitializer();
     }
 
 }

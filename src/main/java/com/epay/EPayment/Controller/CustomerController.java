@@ -43,13 +43,13 @@ public class CustomerController {
         customerView.showCards();
     }
 
-    public Vector<Service> showServices() {
-        ServiceController serviceController = ServiceController.getInstance();
-        Search search = new ConcreteSearch();
-        Vector<Service> result = search.listAll();
-        serviceController.showServices(result);
-        return result;
-    }
+//    public Vector<Service> showServices() {
+//        ServiceController serviceController = ServiceController.getInstance();
+//        Search search = new ConcreteSearch();
+//        Vector<Service> result = search.listAll();
+//        serviceController.showServices(result);
+//        return result;
+//    }
 
     public Vector<Service> searchServices(String sub) throws Exception {
         Search search = new ConcreteSearch();
@@ -60,6 +60,7 @@ public class CustomerController {
         ServiceController serviceController = ServiceController.getInstance();
         return serviceController.chooseService(services, index);
     }
+
     public CreditCard getCard(int index) {
         return customer.getCards().get(index - 1);
     }

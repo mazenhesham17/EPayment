@@ -10,8 +10,8 @@ import com.epay.EPayment.Service.DonationsService;
 import com.epay.EPayment.Service.InternetPaymentService;
 import com.epay.EPayment.Service.LandlineService;
 import com.epay.EPayment.Service.MobileRechargeService;
-import com.epay.EPayment.Util.Pair;
-import com.epay.EPayment.View.ServiceView;
+import com.epay.EPayment.Util.Container;
+import com.epay.EPayment.View.ServiceWebView;
 
 import java.util.HashMap;
 import java.util.Vector;
@@ -55,14 +55,6 @@ public class ServiceController {
         service.getPayments().add(payment);
     }
 
-    public void addCompany(String name) {
-        service.getCompanies().add(name);
-    }
-
-    public void chooseCompany(int index) {
-        service.setCompanyName(service.getCompanies().get(index - 1));
-    }
-
     public void choosePayment(int index) {
         service.setCurrentPayment(service.getPayments().get(index - 1).clone(0));
     }
@@ -82,11 +74,6 @@ public class ServiceController {
         paymentController.setPassword(password);
     }
 
-    public void showServices(Vector<Service> services) {
-        ServiceView serviceView = ServiceView.getInstance();
-        serviceView.showServices(services);
-    }
-
     public Service chooseService(Vector<Service> services, int index) {
         return services.get(index - 1);
     }
@@ -104,11 +91,6 @@ public class ServiceController {
     public Service chooseCategory(int index) {
         ServiceData serviceData = ServiceData.getInstance();
         return serviceData.getServices().get(index - 1);
-    }
-
-    public void showCategories() {
-        ServiceView serviceView = ServiceView.getInstance();
-        serviceView.showCategories();
     }
 
     public void setDiscountData() {
@@ -148,35 +130,47 @@ public class ServiceController {
         discountController.showList(discounts);
     }
 
+    public Vector<Container> getServices() {
+        ServiceData serviceData = ServiceData.getInstance();
+        ServiceWebView serviceWebView = ServiceWebView.getInstance();
+        Vector<Service> services = serviceData.getServices();
+        Vector<Container> containers = new Vector<>();
+        for (Service concreteService : services) {
+            containers.add(serviceWebView.showService(concreteService.getName(), concreteService.getId(), concreteService.getForm(), concreteService.getPayments()));
+        }
+        return containers;
+    }
+
     public void pay() throws Exception {
         service.getCurrentPayment().pay();
     }
-    public void addCategory(Service service , Vector<String>companies ,Vector<Payment>payments){
-        ServiceData serviceData = ServiceData.getInstance() ;
-        serviceData.getCategories().put(service,new Pair(companies,payments)) ;
-        Vector<Service>services = serviceData.getServices() ;
-        for(int i = 0 ; i < companies.size() ; i++){
-            int id = services.size();
-            if(service instanceof DonationsService){
-                DonationsService donationsService = new DonationsService((DonationsService) service) ;
+
+    public void addCategory(Service service, Vector<String> companies) {
+        ServiceData serviceData = ServiceData.getInstance();
+        serviceData.getCategories().put(service, companies);
+        Vector<Service> services = serviceData.getServices();
+        for (int i = 0; i < companies.size(); i++) {
+            int id = services.size() + 1;
+            if (service instanceof DonationsService) {
+                DonationsService donationsService = new DonationsService((DonationsService) service);
                 donationsService.setCompanyName(companies.get(i));
                 donationsService.setId(id);
-                services.add(donationsService) ;
-            }
-            else if(service instanceof MobileRechargeService){
-                MobileRechargeService mobileRechargeService = new MobileRechargeService((MobileRechargeService) service) ;
+                services.add(donationsService);
+            } else if (service instanceof MobileRechargeService) {
+                MobileRechargeService mobileRechargeService = new MobileRechargeService((MobileRechargeService) service);
                 mobileRechargeService.setCompanyName(companies.get(i));
                 mobileRechargeService.setId(id);
-            }
-            else if(service instanceof LandlineService){
-                LandlineService landlineService = new LandlineService((LandlineService) service) ;
+                services.add(mobileRechargeService);
+            } else if (service instanceof LandlineService) {
+                LandlineService landlineService = new LandlineService((LandlineService) service);
                 landlineService.setCompanyName(companies.get(i));
                 landlineService.setId(id);
-            }
-            else if(service instanceof InternetPaymentService){
-                InternetPaymentService internetPaymentService = new InternetPaymentService((InternetPaymentService) service) ;
+                services.add(landlineService);
+            } else if (service instanceof InternetPaymentService) {
+                InternetPaymentService internetPaymentService = new InternetPaymentService((InternetPaymentService) service);
                 internetPaymentService.setCompanyName(companies.get(i));
                 internetPaymentService.setId(id);
+                services.add(internetPaymentService);
             }
         }
     }

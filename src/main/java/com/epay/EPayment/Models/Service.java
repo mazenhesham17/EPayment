@@ -12,31 +12,30 @@ public abstract class Service {
     protected FormData formData;
     protected String categoryName;
     protected String companyName;
-    protected int id ;
+    protected int id;
 
-    public Service(String categoryName , String key , Vector<Payment>payments) {
-        this.categoryName = categoryName ;
-        this.key = key ;
-        this.payments = payments ;
+    public Service(String categoryName, String key, Vector<Payment> payments) {
+        this.categoryName = categoryName;
+        this.key = key;
+        this.payments = payments;
         form = new Form();
         formData = new FormData();
     }
+
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
+
     public String getCategoryName() {
         return categoryName;
     }
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
     }
 
     public Form getForm() {
@@ -63,15 +62,11 @@ public abstract class Service {
         return companyName + " " + categoryName;
     }
 
-    public void setKey(String key) {
-        this.key = key;
-    }
-
     public double getCost() {
         FormDataController formDataController = FormDataController.getInstance();
         formDataController.setFormData(formData);
         String cost = formDataController.getData(key);
-        if(cost==null)
+        if (cost == null)
             return 0;
         return Double.parseDouble(cost);
     }
@@ -80,10 +75,17 @@ public abstract class Service {
         return key;
     }
 
+    public void setKey(String key) {
+        this.key = key;
+    }
+
     public String getCompanyName() {
         return companyName;
     }
 
-   protected abstract void formInitializer();
-    protected abstract void paymentInitializer() ;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    protected abstract void formInitializer();
 }

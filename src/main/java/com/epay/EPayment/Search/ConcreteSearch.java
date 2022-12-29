@@ -10,33 +10,15 @@ public class ConcreteSearch implements Search {
     public Vector<Service> find(String sub) throws Exception {
         Vector<Service> result = new Vector<>();
         ServiceData serviceData = ServiceData.getInstance();
-        Vector<Service> categories = serviceData.getServices();
-        for (Service category : categories) {
-            Vector<String> company = category.getCompanies();
-            for (int i = 0; i < company.size(); i++) {
-                Service concreteService = category.clone(i + 1);
-                String name = concreteService.getName();
-                if (name.toLowerCase().contains(sub.toLowerCase())) {
-                    result.add(concreteService);
-                }
+        Vector<Service> services = serviceData.getServices();
+        for (Service service : services) {
+            String name = service.getName();
+            if (name.toLowerCase().contains(sub.toLowerCase())) {
+                result.add(service);
             }
         }
-        if(result.isEmpty()){
-            throw new Exception("There is no result :(") ;
-        }
-        return result;
-    }
-
-    public Vector<Service> listAll() {
-        Vector<Service> result = new Vector<>();
-        ServiceData serviceData = ServiceData.getInstance();
-        Vector<Service> categories = serviceData.getServices();
-        for (Service category : categories) {
-            Vector<String> company = category.getCompanies();
-            for (int i = 0; i < company.size(); i++) {
-                Service concreteService = category.clone(i + 1);
-                result.add(concreteService);
-            }
+        if (result.isEmpty()) {
+            throw new Exception("There is no result :(");
         }
         return result;
     }

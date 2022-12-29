@@ -1,7 +1,10 @@
 package com.epay.EPayment;
 
-import com.epay.EPayment.Controller.*;
+import com.epay.EPayment.Controller.PaymentController;
+import com.epay.EPayment.Controller.ServiceController;
+import com.epay.EPayment.Controller.UserController;
 import com.epay.EPayment.Models.Admin;
+import com.epay.EPayment.Models.Payment;
 import com.epay.EPayment.Models.PaymentDetails;
 import com.epay.EPayment.Payment.CashPayment;
 import com.epay.EPayment.Payment.CreditCardPayment;
@@ -14,14 +17,18 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import javax.annotation.PostConstruct;
+import java.util.Vector;
 
 @SpringBootApplication
 public class EPaymentApplication {
+    public static void main(String[] args) {
+
+        SpringApplication.run(EPaymentApplication.class, args);
+    }
+
     @PostConstruct
-    public void initialize(){
+    public void initialize() {
         UserController userController = UserController.getInstance();
-        CustomerController customerController = CustomerController.getInstance();
-        AdminController adminController = AdminController.getInstance();
         ServiceController serviceController = ServiceController.getInstance();
 
         userController.addUser(new Admin("admin@epay.com", "admin", "admin"));
@@ -29,16 +36,36 @@ public class EPaymentApplication {
         paymentController.addPayment(new CreditCardPayment(new PaymentDetails()));
         paymentController.addPayment(new WalletPayment(new PaymentDetails()));
         paymentController.addPayment(new CashPayment(new PaymentDetails()));
-        serviceController.addService(new MobileRechargeService());
-        serviceController.addService(new InternetPaymentService());
-        serviceController.addService(new LandlineService());
-        serviceController.addService(new DonationsService());
+        Vector<Payment> payments = new Vector<>();
+        payments.add(paymentController.getPayment(1));
+        payments.add(paymentController.getPayment(2));
+        Vector<String> companies = new Vector<>();
+        companies.add("Etisalat");
+        companies.add("Vodafone");
+        companies.add("Orange");
+        companies.add("We");
+        // mobile
+        serviceController.addCategory(new MobileRechargeService("Mobile Recharge", "Amount", payments), companies);
 
-    }
+        // internet
+        serviceController.addCategory(new InternetPaymentService("Internet Payment", "Internet bundle", payments), companies);
+        companies = new Vector<>();
+        companies.add("Quarter Bill");
+        companies.add("Monthly Bill");
 
-    public static void main(String[] args) {
+        // landline
+        serviceController.addCategory(new LandlineService("Landline", "Landline Bill", payments), companies);
 
-        SpringApplication.run(EPaymentApplication.class, args);
+        // donations
+        payments = new Vector<>();
+        companies = new Vector<>();
+        payments.add(paymentController.getPayment(1));
+        payments.add(paymentController.getPayment(2));
+        payments.add(paymentController.getPayment(3));
+        companies.add("Cancer Hospital");
+        companies.add("Schools");
+        companies.add("NGOs( Non Profitable Organizations)");
+        serviceController.addCategory(new DonationsService("Donation", "Monthly Donation", payments), companies);
     }
 }
 
