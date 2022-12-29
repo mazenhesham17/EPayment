@@ -1,8 +1,11 @@
 package com.epay.EPayment.View;
 
 import com.epay.EPayment.DataSet.ServiceData;
+import com.epay.EPayment.Models.Form;
+import com.epay.EPayment.Models.Payment;
 import com.epay.EPayment.Models.Service;
 
+import java.util.HashMap;
 import java.util.Vector;
 
 public class ServiceView {
@@ -34,5 +37,13 @@ public class ServiceView {
         for (int i = 0; i < services.size(); i++) {
             System.out.println((i + 1) + ". " + services.get(i).getName());
         }
+    }
+    public HashMap<String, Object> convert(String name , int id , Form form , Vector<Payment> payments ){
+        HashMap<String,Object> json = new HashMap<>() ;
+        json.put("name",name) ;
+        json.put("id",id) ;
+        json.put("form",form) ;
+        json.put("supported payments",payments) ;
+        return json ;
     }
 }

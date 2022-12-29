@@ -8,20 +8,25 @@ public abstract class Service {
     protected Vector<Payment> payments;
     protected Payment currentPayment;
     protected Form form;
-
     protected String key;
     protected FormData formData;
     protected String categoryName;
-    protected String currentCompany;
-    protected Vector<String> companies;
+    protected String companyName;
+    protected int id ;
 
-    public Service() {
-        payments = new Vector<>();
-        companies = new Vector<>();
+    public Service(String categoryName , String key , Vector<Payment>payments) {
+        this.categoryName = categoryName ;
+        this.key = key ;
+        this.payments = payments ;
         form = new Form();
         formData = new FormData();
     }
-
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
     public String getCategoryName() {
         return categoryName;
     }
@@ -30,8 +35,8 @@ public abstract class Service {
         this.categoryName = categoryName;
     }
 
-    public void setCurrentCompany(String currentCompany) {
-        this.currentCompany = currentCompany;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public Form getForm() {
@@ -50,16 +55,12 @@ public abstract class Service {
         return payments;
     }
 
-    public Vector<String> getCompanies() {
-        return companies;
-    }
-
     public FormData getFormData() {
         return formData;
     }
 
     public String getName() {
-        return currentCompany + " " + categoryName;
+        return companyName + " " + categoryName;
     }
 
     public void setKey(String key) {
@@ -79,10 +80,10 @@ public abstract class Service {
         return key;
     }
 
-    public String getCurrentCompany() {
-        return currentCompany;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public abstract Service clone(int index);
-
+   protected abstract void formInitializer();
+    protected abstract void paymentInitializer() ;
 }

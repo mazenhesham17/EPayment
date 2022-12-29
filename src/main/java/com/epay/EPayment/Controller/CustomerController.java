@@ -60,7 +60,6 @@ public class CustomerController {
         ServiceController serviceController = ServiceController.getInstance();
         return serviceController.chooseService(services, index);
     }
-
     public CreditCard getCard(int index) {
         return customer.getCards().get(index - 1);
     }

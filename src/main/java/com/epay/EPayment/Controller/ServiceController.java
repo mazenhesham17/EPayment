@@ -6,6 +6,11 @@ import com.epay.EPayment.Discount.SpecificDiscount;
 import com.epay.EPayment.Models.Discount;
 import com.epay.EPayment.Models.Payment;
 import com.epay.EPayment.Models.Service;
+import com.epay.EPayment.Service.DonationsService;
+import com.epay.EPayment.Service.InternetPaymentService;
+import com.epay.EPayment.Service.LandlineService;
+import com.epay.EPayment.Service.MobileRechargeService;
+import com.epay.EPayment.Util.Pair;
 import com.epay.EPayment.View.ServiceView;
 
 import java.util.HashMap;
@@ -55,7 +60,7 @@ public class ServiceController {
     }
 
     public void chooseCompany(int index) {
-        service.setCurrentCompany(service.getCompanies().get(index - 1));
+        service.setCompanyName(service.getCompanies().get(index - 1));
     }
 
     public void choosePayment(int index) {
@@ -146,6 +151,34 @@ public class ServiceController {
     public void pay() throws Exception {
         service.getCurrentPayment().pay();
     }
-
+    public void addCategory(Service service , Vector<String>companies ,Vector<Payment>payments){
+        ServiceData serviceData = ServiceData.getInstance() ;
+        serviceData.getCategories().put(service,new Pair(companies,payments)) ;
+        Vector<Service>services = serviceData.getServices() ;
+        for(int i = 0 ; i < companies.size() ; i++){
+            int id = services.size();
+            if(service instanceof DonationsService){
+                DonationsService donationsService = new DonationsService((DonationsService) service) ;
+                donationsService.setCompanyName(companies.get(i));
+                donationsService.setId(id);
+                services.add(donationsService) ;
+            }
+            else if(service instanceof MobileRechargeService){
+                MobileRechargeService mobileRechargeService = new MobileRechargeService((MobileRechargeService) service) ;
+                mobileRechargeService.setCompanyName(companies.get(i));
+                mobileRechargeService.setId(id);
+            }
+            else if(service instanceof LandlineService){
+                LandlineService landlineService = new LandlineService((LandlineService) service) ;
+                landlineService.setCompanyName(companies.get(i));
+                landlineService.setId(id);
+            }
+            else if(service instanceof InternetPaymentService){
+                InternetPaymentService internetPaymentService = new InternetPaymentService((InternetPaymentService) service) ;
+                internetPaymentService.setCompanyName(companies.get(i));
+                internetPaymentService.setId(id);
+            }
+        }
+    }
 
 }
