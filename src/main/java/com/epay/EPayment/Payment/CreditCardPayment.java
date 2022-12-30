@@ -1,6 +1,7 @@
 package com.epay.EPayment.Payment;
 
 import com.epay.EPayment.Balance.CreditCard;
+import com.epay.EPayment.Controller.CreditCardController;
 import com.epay.EPayment.Models.Payment;
 import com.epay.EPayment.Models.PaymentDetails;
 
@@ -11,7 +12,9 @@ public class CreditCardPayment extends Payment {
     }
 
     public void authenticate(String password) throws Exception {
-        ((CreditCard) balance).authenticate(password);
+        CreditCardController creditCardController = CreditCardController.getInstance() ;
+        creditCardController.setCreditCard((CreditCard) balance);
+        creditCardController.authenticate(password);
     }
 
     String getPassword() {
@@ -23,6 +26,13 @@ public class CreditCardPayment extends Payment {
         String password = getPassword();
         authenticate(password);
         return super.pay();
+    }
+
+    @Override
+    public void withdraw(double amount) throws Exception {
+        CreditCardController creditCardController = CreditCardController.getInstance() ;
+        creditCardController.setCreditCard((CreditCard) balance);
+        creditCardController.withdraw(amount);
     }
 
     @Override

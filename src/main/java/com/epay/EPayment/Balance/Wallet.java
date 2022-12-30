@@ -8,10 +8,6 @@ public class Wallet extends Balance {
         super(0, "Wallet");
     }
 
-    public void deposit(CreditCard card, double cost, String password) throws Exception {
-        card.authenticate(password);
-        card.withdraw(cost);
-        this.deposit(cost);
-    }
+
 
 }

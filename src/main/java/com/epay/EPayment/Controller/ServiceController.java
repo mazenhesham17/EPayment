@@ -137,39 +137,24 @@ public class ServiceController {
         }
     }
 
-    public void showDiscounts(Vector<Discount> discounts) {
-        DiscountController discountController = DiscountController.getInstance();
-        discountController.showList(discounts);
-    }
-
-    public Vector<Container> getServices() {
-        ServiceData serviceData = ServiceData.getInstance();
-        ServiceWebView serviceWebView = ServiceWebView.getInstance();
-        Vector<Service> services = serviceData.getServices();
+    public Vector<Container> getWebView( Vector<Service> services ){
         Vector<Container> containers = new Vector<>();
+        ServiceWebView serviceWebView = ServiceWebView.getInstance();
         for (Service concreteService : services) {
             service = concreteService;
-
             containers.add(serviceWebView.showService(serviceController.getName(), concreteService.getId(), concreteService.getForm(), concreteService.getPayments()));
         }
         return containers;
     }
 
-    public void pay() throws Exception {
-        service.getCurrentPayment().pay();
+    public Vector<Container> getServices() {
+        ServiceData serviceData = ServiceData.getInstance();
+        Vector<Service> services = serviceData.getServices();
+        return getWebView(services) ;
     }
 
-    public Container getCategory(int id) throws Exception {
-        ServiceData serviceData = ServiceData.getInstance();
-        if (id < 1 || id > serviceData.getCategories().size())
-            throw new Exception("Id not in the range from 1 to " + serviceData.getCategories().size());
-        CategoryWebView categoryWebView = CategoryWebView.getInstance();
-        for (Map.Entry<Service, Pair<Integer, Vector<String>>> entry : serviceData.getCategories().entrySet()) {
-            if (id == entry.getValue().getFirst()) {
-                return categoryWebView.showCategory(entry.getKey().getCategoryName(), entry.getValue().getFirst());
-            }
-        }
-        return null;
+    public void pay() throws Exception {
+        service.getCurrentPayment().pay();
     }
 
     public void addCategory(Service service, Vector<String> companies) {
@@ -177,51 +162,31 @@ public class ServiceController {
         int id = serviceData.getCategories().size() + 1;
         serviceData.getCategories().put(service, new Pair(id, companies));
         Vector<Service> services = serviceData.getServices();
-        for (int i = 0; i < companies.size(); i++) {
+        for (String company : companies) {
             id = services.size() + 1;
             if (service instanceof DonationsService) {
                 DonationsService donationsService = new DonationsService((DonationsService) service);
-                donationsService.setCompanyName(companies.get(i));
+                donationsService.setCompanyName(company);
                 donationsService.setId(id);
                 services.add(donationsService);
             } else if (service instanceof MobileRechargeService) {
                 MobileRechargeService mobileRechargeService = new MobileRechargeService((MobileRechargeService) service);
-                mobileRechargeService.setCompanyName(companies.get(i));
+                mobileRechargeService.setCompanyName(company);
                 mobileRechargeService.setId(id);
                 services.add(mobileRechargeService);
             } else if (service instanceof LandlineService) {
                 LandlineService landlineService = new LandlineService((LandlineService) service);
-                landlineService.setCompanyName(companies.get(i));
+                landlineService.setCompanyName(company);
                 landlineService.setId(id);
                 services.add(landlineService);
             } else if (service instanceof InternetPaymentService) {
                 InternetPaymentService internetPaymentService = new InternetPaymentService((InternetPaymentService) service);
-                internetPaymentService.setCompanyName(companies.get(i));
+                internetPaymentService.setCompanyName(company);
                 internetPaymentService.setId(id);
                 services.add(internetPaymentService);
             }
         }
     }
-    public Vector<Container> getCategories() {
-        Vector<Container> containers = new Vector<>();
-        ContainerController containerController = ContainerController.getInstance();
-        ServiceData serviceData = ServiceData.getInstance();
-        CategoryWebView categoryWebView = CategoryWebView.getInstance();
-        for (Map.Entry<Service, Pair<Integer, Vector<String>>> entry : serviceData.getCategories().entrySet()) {
-            containers.add(categoryWebView.showCategory(entry.getKey().getCategoryName() , entry.getValue().getFirst())) ;
-        }
-        return containers;
-    }
-    public Service getCategory(int id , int dummy) throws Exception {
-        ServiceData serviceData = ServiceData.getInstance();
-        if (id < 1 || id > serviceData.getCategories().size())
-            throw new Exception("Id not in the range from 1 to " + serviceData.getCategories().size());
-        for (Map.Entry<Service, Pair<Integer, Vector<String>>> entry : serviceData.getCategories().entrySet()) {
-            if (id == entry.getValue().getFirst()) {
-                return entry.getKey() ;
-            }
-        }
-        return null;
-    }
+
 
 }

@@ -16,11 +16,7 @@ public class CreditCard extends Balance {
         return number;
     }
 
-    public void authenticate(String password) throws Exception {
-        if (this.password.equals(password)) {
-            return;
-        }
-        throw new Exception("The password for " + this.getName() + " is incorrect.");
+    public String getPassword() {
+        return password;
     }
-
 }

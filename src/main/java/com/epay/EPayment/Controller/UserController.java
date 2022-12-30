@@ -8,6 +8,8 @@ import com.epay.EPayment.Registration.EmailSignIn;
 import com.epay.EPayment.Registration.EmailSignUp;
 import com.epay.EPayment.Registration.SignIn;
 import com.epay.EPayment.Registration.SignUp;
+import com.epay.EPayment.Util.Container;
+import com.epay.EPayment.View.UserWebView;
 
 import java.util.Vector;
 
@@ -108,6 +110,17 @@ public class UserController {
             throw new Exception("You are already signed out");
         }
         user = null;
+    }
+
+    public Vector<Container> getUsers(){
+        UserData userData = UserData.getInstance() ;
+        UserWebView userWebView = UserWebView.getInstance() ;
+        Vector<User> users = userData.getUsers() ;
+        Vector<Container> containers = new Vector<>() ;
+        for ( User conocreteUser : users ){
+            containers.add(userWebView.showUser(conocreteUser.getUsername(), conocreteUser.getEmail())) ;
+        }
+        return containers ;
     }
 
     public Vector<Customer> getCustomers() {

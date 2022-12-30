@@ -1,9 +1,7 @@
 package com.epay.EPayment.API;
 
-import com.epay.EPayment.Controller.AdminController;
-import com.epay.EPayment.Controller.CustomerController;
-import com.epay.EPayment.Controller.ServiceController;
-import com.epay.EPayment.Controller.UserController;
+import com.epay.EPayment.Controller.*;
+import com.epay.EPayment.DataSet.UserData;
 import com.epay.EPayment.Models.Admin;
 import com.epay.EPayment.Models.Customer;
 import com.epay.EPayment.Models.Response;
@@ -17,25 +15,27 @@ import java.util.Vector;
 public class UserAPI {
 
     UserController userController = UserController.getInstance();
+    ResponseController responseController = ResponseController.getInstance() ;
 
     @PostMapping("/sign-up")
     public Response signUp(@RequestBody Customer customer) {
         Response response = new Response<>();
+        responseController.setResponse(response);
         try {
             userController.signUp(customer);
         } catch (Exception e) {
-            response.setStatus(false);
-            response.setMessage(e.getMessage());
+            responseController.setFailure(e.getMessage());
             return response;
         }
+        responseController.setSuccess("User Registered Successfully :)");
         response.setStatus(true);
-        response.setMessage("User Registered Successfully :)");
         return response;
     }
 
     @PostMapping("/sign-in")
     public Response signIn(@RequestBody User user) {
         Response response = new Response<>();
+        responseController.setResponse(response);
         try {
             userController.signIn(user);
             if (userController.isAdmin()) {
@@ -46,34 +46,30 @@ public class UserAPI {
                 customerController.setCustomer((Customer) userController.getUser());
             }
         } catch (Exception e) {
-            response.setStatus(false);
-            response.setMessage(e.getMessage());
+            responseController.setFailure(e.getMessage());
             return response;
         }
-        response.setStatus(true);
-        response.setMessage("Welcome " + userController.getUsername() + " :)");
+        responseController.setSuccess("Welcome " + userController.getUsername() + " :)");
         return response;
     }
 
     @PutMapping("/sign-out")
     public Response signUp() {
         Response response = new Response<>();
+        responseController.setResponse(response);
         try {
             userController.signOut();
         } catch (Exception e) {
-            response.setStatus(false);
-            response.setMessage(e.getMessage());
+            responseController.setFailure(e.getMessage());
             return response;
         }
-        response.setStatus(true);
-        response.setMessage("User Signed out successfully :(");
+        responseController.setSuccess("User Signed out successfully :(");
         return response;
     }
 
-    @GetMapping("/service")
-    public Vector<Container> getServices() {
-        ServiceController serviceController = ServiceController.getInstance();
-        return serviceController.getServices();
+    @GetMapping("/users")
+    public Vector<Container> getUsers() {
+        return userController.getUsers();
     }
 
 }

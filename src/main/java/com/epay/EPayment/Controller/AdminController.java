@@ -27,8 +27,8 @@ public class AdminController {
         DiscountController discountController = DiscountController.getInstance();
         UserData userData = UserData.getInstance();
         Vector<User> users = userData.getUsers();
-        ServiceController serviceController = ServiceController.getInstance() ;
-        Service service = serviceController.getCategory(id,0) ;
+        CategoryController categoryController = CategoryController.getInstance() ;
+        Service service = categoryController.getCategory(id,0) ;
 
         for (User user : users) {
             if (user instanceof Customer) {

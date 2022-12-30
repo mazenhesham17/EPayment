@@ -9,6 +9,7 @@ import com.epay.EPayment.Search.Search;
 import com.epay.EPayment.Transaction.ChargeTransaction;
 import com.epay.EPayment.Transaction.PaymentTransaction;
 import com.epay.EPayment.Transaction.RefundTransaction;
+import com.epay.EPayment.Util.Container;
 import com.epay.EPayment.View.CustomerView;
 
 import java.util.HashMap;
@@ -34,26 +35,12 @@ public class CustomerController {
 
     public void addCard(CreditCard card) {
         customer.getCards().add(card);
-        System.out.println(card.getName() + " is added successfully :)");
     }
 
-    public void showCards() {
-        CustomerView customerView = CustomerView.getInstance();
-        customerView.setCustomer(customer);
-        customerView.showCards();
-    }
-
-//    public Vector<Service> showServices() {
-//        ServiceController serviceController = ServiceController.getInstance();
-//        Search search = new ConcreteSearch();
-//        Vector<Service> result = search.listAll();
-//        serviceController.showServices(result);
-//        return result;
-//    }
-
-    public Vector<Service> searchServices(String sub) throws Exception {
+    public Vector<Container> searchServices(String sub) throws Exception {
         Search search = new ConcreteSearch();
-        return search.find(sub);
+        ServiceController serviceController = ServiceController.getInstance() ;
+        return serviceController.getWebView(search.find(sub));
     }
 
     public Service chooseService(Vector<Service> services, int index) {
@@ -66,8 +53,9 @@ public class CustomerController {
     }
 
     public void chargeWallet(CreditCard card, double cost, String password) throws Exception {
-        customer.getWallet().deposit(card, cost, password);
-
+        WalletController walletController = WalletController.getInstance() ;
+        walletController.setWallet(customer.getWallet());
+        walletController.deposit(card, cost, password);
         System.out.println(cost + " added to your wallet successfully :)");
     }
 
@@ -89,10 +77,10 @@ public class CustomerController {
         return customer.getDiscountData();
     }
 
-    public void showAllDiscounts() {
+    public Vector<Container> showAllDiscounts() throws Exception {
         DiscountController discountController = DiscountController.getInstance();
         discountController.setDiscountData(customer.getDiscountData());
-        discountController.showAll();
+        return discountController.showAll();
     }
 
     public void addTransaction(Transaction transaction) {
@@ -116,9 +104,13 @@ public class CustomerController {
     public void refund(Refund refund) throws Exception {
         Transaction transaction = refund.getTransaction();
         if (transaction instanceof PaymentTransaction) {
-            customer.getWallet().deposit(transaction.getAmount());
+            WalletController walletController = WalletController.getInstance() ;
+            walletController.setWallet(customer.getWallet());
+            walletController.deposit(transaction.getAmount());
         } else if (transaction instanceof ChargeTransaction) {
-            ((ChargeTransaction) transaction).getCreditCard().deposit(transaction.getAmount());
+            CreditCardController creditCardController = CreditCardController.getInstance() ;
+            creditCardController.setCreditCard(((ChargeTransaction) transaction).getCreditCard());
+            creditCardController.deposit(transaction.getAmount());
         } else {
             throw new Exception("You can not make refund in Refunded requests ");
         }

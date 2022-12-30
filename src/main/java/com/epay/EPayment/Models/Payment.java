@@ -35,9 +35,7 @@ abstract public class Payment {
     }
 
 
-    public void withdraw(double amount) throws Exception {
-        balance.withdraw(amount);
-    }
+    public abstract void withdraw(double amount) throws Exception ;
 
     public abstract Payment clone(int index);
 }
