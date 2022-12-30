@@ -23,10 +23,13 @@ public class AdminController {
         this.admin = admin;
     }
 
-    public void addSpecificDiscount(Discount discount, Service service) {
+    public void addSpecificDiscount(Discount discount, int id) throws Exception {
         DiscountController discountController = DiscountController.getInstance();
         UserData userData = UserData.getInstance();
         Vector<User> users = userData.getUsers();
+        ServiceController serviceController = ServiceController.getInstance() ;
+        Service service = serviceController.getCategory(id,0) ;
+
         for (User user : users) {
             if (user instanceof Customer) {
                 Customer customer = (Customer) user;

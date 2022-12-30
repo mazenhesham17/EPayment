@@ -1,5 +1,7 @@
 package com.epay.EPayment.Controller;
 
+import com.epay.EPayment.Discount.OverallDiscount;
+import com.epay.EPayment.Discount.SpecificDiscount;
 import com.epay.EPayment.Models.Discount;
 import com.epay.EPayment.Models.DiscountData;
 import com.epay.EPayment.Models.Service;
@@ -76,5 +78,10 @@ public class DiscountController {
             }
         }
         return result;
+    }
+    public SpecificDiscount getSpecificDiscount(String name , int percentage , int id) throws Exception {
+        ServiceController serviceController = ServiceController.getInstance() ;
+        Service service = serviceController.getCategory(id,0) ;
+        return new SpecificDiscount(name,percentage,service);
     }
 }

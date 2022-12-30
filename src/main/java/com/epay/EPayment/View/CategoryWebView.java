@@ -8,27 +8,23 @@ import com.epay.EPayment.Util.Container;
 
 import java.util.Vector;
 
-public class ServiceWebView {
-    static ServiceWebView serviceWebView = null;
-    private ServiceWebView() {
+public class CategoryWebView {
+    static CategoryWebView categoryWebView = null;
+
+    private CategoryWebView() {
     }
 
-    public static ServiceWebView getInstance() {
-        if (serviceWebView == null)
-            serviceWebView = new ServiceWebView();
-        return serviceWebView;
+    public static CategoryWebView getInstance() {
+        if (categoryWebView == null)
+            categoryWebView = new CategoryWebView();
+        return categoryWebView ;
     }
-
-
-    public Container showService(String name, int id, Form form, Vector<Payment> payments) {
+    public Container showCategory(String name, int id) {
         Container container = new Container();
         ContainerController containerController = ContainerController.getInstance();
         containerController.setContainer(container);
         containerController.put("name", name);
         containerController.put("id", id);
-        containerController.put("form", form);
-        containerController.put("supported payments", payments);
         return container;
     }
-
 }

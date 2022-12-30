@@ -58,19 +58,6 @@ public abstract class Service {
         return formData;
     }
 
-    public String getName() {
-        return companyName + " " + categoryName;
-    }
-
-    public double getCost() {
-        FormDataController formDataController = FormDataController.getInstance();
-        formDataController.setFormData(formData);
-        String cost = formDataController.getData(key);
-        if (cost == null)
-            return 0;
-        return Double.parseDouble(cost);
-    }
-
     public String getKey() {
         return key;
     }

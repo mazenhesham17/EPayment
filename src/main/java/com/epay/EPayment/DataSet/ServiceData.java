@@ -1,13 +1,14 @@
 package com.epay.EPayment.DataSet;
 
 import com.epay.EPayment.Models.Service;
+import com.epay.EPayment.Util.Pair;
 
 import java.util.HashMap;
 import java.util.Vector;
 
 public class ServiceData {
     static ServiceData serviceData = null;
-    HashMap<Service, Vector<String>> categories;
+    HashMap<Service, Pair<Integer , Vector<String>>> categories;
     Vector<Service> services;
 
     private ServiceData() {
@@ -21,7 +22,7 @@ public class ServiceData {
         return serviceData;
     }
 
-    public HashMap<Service, Vector<String>> getCategories() {
+    public HashMap<Service, Pair<Integer, Vector<String>>> getCategories() {
         return categories;
     }
 

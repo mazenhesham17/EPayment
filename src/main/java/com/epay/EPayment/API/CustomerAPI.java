@@ -7,10 +7,7 @@ import com.epay.EPayment.Controller.UserController;
 import com.epay.EPayment.Models.Customer;
 import com.epay.EPayment.Models.Response;
 import com.epay.EPayment.Util.Container;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Vector;
 
@@ -47,8 +44,8 @@ public class CustomerAPI {
         return response;
     }
 
-    @GetMapping("/customer/search/{query}")
-    public Response search(String query) {
+    @GetMapping("/customer/search")
+    public Response search(@RequestParam("q") String query) {
         Response response = new Response();
         if (userController.isAdmin()) {
             response.setStatus(false);
