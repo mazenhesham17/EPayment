@@ -1,7 +1,9 @@
 package com.epay.EPayment.API;
 
-import com.epay.EPayment.Controller.*;
-import com.epay.EPayment.DataSet.UserData;
+import com.epay.EPayment.Controller.AdminController;
+import com.epay.EPayment.Controller.CustomerController;
+import com.epay.EPayment.Controller.ResponseController;
+import com.epay.EPayment.Controller.UserController;
 import com.epay.EPayment.Models.Admin;
 import com.epay.EPayment.Models.Customer;
 import com.epay.EPayment.Models.Response;
@@ -15,7 +17,7 @@ import java.util.Vector;
 public class UserAPI {
 
     UserController userController = UserController.getInstance();
-    ResponseController responseController = ResponseController.getInstance() ;
+    ResponseController responseController = ResponseController.getInstance();
 
     @PostMapping("/sign-up")
     public Response signUp(@RequestBody Customer customer) {

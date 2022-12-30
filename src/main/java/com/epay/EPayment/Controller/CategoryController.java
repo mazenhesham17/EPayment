@@ -27,17 +27,18 @@ public class CategoryController {
         ServiceData serviceData = ServiceData.getInstance();
         CategoryWebView categoryWebView = CategoryWebView.getInstance();
         for (Map.Entry<Service, Pair<Integer, Vector<String>>> entry : serviceData.getCategories().entrySet()) {
-            containers.add(categoryWebView.showCategory(entry.getKey().getCategoryName() , entry.getValue().getFirst())) ;
+            containers.add(categoryWebView.showCategory(entry.getKey().getCategoryName(), entry.getValue().getFirst()));
         }
         return containers;
     }
-    public Service getCategory(int id , int dummy) throws Exception {
+
+    public Service getCategory(int id, int dummy) throws Exception {
         ServiceData serviceData = ServiceData.getInstance();
         if (id < 1 || id > serviceData.getCategories().size())
             throw new Exception("Id not in the range from 1 to " + serviceData.getCategories().size());
         for (Map.Entry<Service, Pair<Integer, Vector<String>>> entry : serviceData.getCategories().entrySet()) {
             if (id == entry.getValue().getFirst()) {
-                return entry.getKey() ;
+                return entry.getKey();
             }
         }
         return null;

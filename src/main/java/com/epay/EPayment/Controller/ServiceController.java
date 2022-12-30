@@ -12,11 +12,9 @@ import com.epay.EPayment.Service.LandlineService;
 import com.epay.EPayment.Service.MobileRechargeService;
 import com.epay.EPayment.Util.Container;
 import com.epay.EPayment.Util.Pair;
-import com.epay.EPayment.View.CategoryWebView;
 import com.epay.EPayment.View.ServiceWebView;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Vector;
 
 public class ServiceController {
@@ -137,7 +135,7 @@ public class ServiceController {
         }
     }
 
-    public Vector<Container> getWebView( Vector<Service> services ){
+    public Vector<Container> getWebView(Vector<Service> services) {
         Vector<Container> containers = new Vector<>();
         ServiceWebView serviceWebView = ServiceWebView.getInstance();
         for (Service concreteService : services) {
@@ -150,7 +148,7 @@ public class ServiceController {
     public Vector<Container> getServices() {
         ServiceData serviceData = ServiceData.getInstance();
         Vector<Service> services = serviceData.getServices();
-        return getWebView(services) ;
+        return getWebView(services);
     }
 
     public void pay() throws Exception {

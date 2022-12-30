@@ -15,7 +15,7 @@ public class PaymentTransaction extends Transaction {
         super(customer, amount);
         super.setTransactionType("Payment Transaction");
         super.setPaymentMethod(service.getCurrentPayment().getName());
-        ServiceController serviceController = ServiceController.getInstance() ;
+        ServiceController serviceController = ServiceController.getInstance();
         serviceController.setService(service);
         serviceName = serviceController.getName();
         this.formData = service.getFormData();

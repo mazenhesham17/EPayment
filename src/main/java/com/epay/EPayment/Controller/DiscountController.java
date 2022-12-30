@@ -47,20 +47,20 @@ public class DiscountController {
     public Vector<Container> showAll() throws Exception {
         DiscountWebView discountWebView = DiscountWebView.getInstance();
         Vector<Discount> discounts = discountData.getDiscounts();
-        Vector<Container> containers = new Vector<>() ;
-        for ( Discount concreteDiscount : discounts ){
-            containers.add(discountWebView.showDiscount(concreteDiscount.getName(),concreteDiscount.getPercentage(),concreteDiscount.getAppliedCategory())) ;
+        Vector<Container> containers = new Vector<>();
+        for (Discount concreteDiscount : discounts) {
+            containers.add(discountWebView.showDiscount(concreteDiscount.getName(), concreteDiscount.getPercentage(), concreteDiscount.getAppliedCategory()));
         }
         for (Map.Entry<Class, Vector<Discount>> entry : discountData.getSpecificDiscounts().entrySet()) {
             discounts = entry.getValue();
-            for ( Discount concreteDiscount : discounts ){
-                containers.add(discountWebView.showDiscount(concreteDiscount.getName(),concreteDiscount.getPercentage(),concreteDiscount.getAppliedCategory())) ;
+            for (Discount concreteDiscount : discounts) {
+                containers.add(discountWebView.showDiscount(concreteDiscount.getName(), concreteDiscount.getPercentage(), concreteDiscount.getAppliedCategory()));
             }
         }
-        if ( containers.isEmpty() ){
+        if (containers.isEmpty()) {
             throw new Exception("You do not have discount :(");
-        }else{
-            return containers ;
+        } else {
+            return containers;
         }
     }
 
@@ -87,9 +87,10 @@ public class DiscountController {
         }
         return result;
     }
-    public SpecificDiscount getSpecificDiscount(String name , int percentage , int id) throws Exception {
-        CategoryController categoryController = CategoryController.getInstance() ;
-        Service service = categoryController.getCategory(id,0) ;
-        return new SpecificDiscount(name,percentage,service);
+
+    public SpecificDiscount getSpecificDiscount(String name, int percentage, int id) throws Exception {
+        CategoryController categoryController = CategoryController.getInstance();
+        Service service = categoryController.getCategory(id, 0);
+        return new SpecificDiscount(name, percentage, service);
     }
 }

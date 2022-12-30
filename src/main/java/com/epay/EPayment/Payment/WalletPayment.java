@@ -13,13 +13,15 @@ public class WalletPayment extends Payment {
 
     @Override
     public void withdraw(double amount) throws Exception {
-        WalletController walletController = WalletController.getInstance() ;
+        WalletController walletController = WalletController.getInstance();
         walletController.setWallet((Wallet) balance);
         walletController.withdraw(amount);
     }
 
     @Override
     public Payment clone(int index) {
-        return new WalletPayment(new PaymentDetails());
+        WalletPayment walletPayment = new WalletPayment(new PaymentDetails());
+        walletPayment.setId(this.getId());
+        return walletPayment;
     }
 }

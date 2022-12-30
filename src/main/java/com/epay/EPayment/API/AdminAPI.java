@@ -32,9 +32,9 @@ public class AdminAPI {
         responseController.setResponse(response);
         if (!isValid())
             return response;
-        CategoryController categoryController = CategoryController.getInstance() ;
+        CategoryController categoryController = CategoryController.getInstance();
         try {
-            responseController.setSuccess( categoryController.getCategory(id));
+            responseController.setSuccess(categoryController.getCategory(id));
         } catch (Exception e) {
             responseController.setFailure(e.getMessage());
             return response;
@@ -48,7 +48,7 @@ public class AdminAPI {
         responseController.setResponse(response);
         if (!isValid())
             return response;
-        CategoryController categoryController = CategoryController.getInstance() ;
+        CategoryController categoryController = CategoryController.getInstance();
         responseController.setSuccess(categoryController.getCategories());
         return response;
     }

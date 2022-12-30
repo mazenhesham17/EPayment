@@ -10,7 +10,7 @@ public class ConcreteSearch implements Search {
     @Override
     public Vector<Service> find(String sub) throws Exception {
         Vector<Service> result = new Vector<>();
-        ServiceController serviceController = ServiceController.getInstance() ;
+        ServiceController serviceController = ServiceController.getInstance();
         ServiceData serviceData = ServiceData.getInstance();
         Vector<Service> services = serviceData.getServices();
         for (Service service : services) {

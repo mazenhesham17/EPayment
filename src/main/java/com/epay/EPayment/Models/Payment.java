@@ -3,9 +3,18 @@ package com.epay.EPayment.Models;
 abstract public class Payment {
     protected Balance balance;
     protected PaymentDetails paymentDetails;
+    protected int id;
 
     public Payment(PaymentDetails paymentDetails) {
         this.paymentDetails = paymentDetails;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setBalance(Balance balance) {
@@ -35,7 +44,7 @@ abstract public class Payment {
     }
 
 
-    public abstract void withdraw(double amount) throws Exception ;
+    public abstract void withdraw(double amount) throws Exception;
 
     public abstract Payment clone(int index);
 }

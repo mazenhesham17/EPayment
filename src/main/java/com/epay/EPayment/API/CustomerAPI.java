@@ -1,16 +1,14 @@
 package com.epay.EPayment.API;
 
 import com.epay.EPayment.Balance.CreditCard;
-import com.epay.EPayment.Controller.CustomerController;
-import com.epay.EPayment.Controller.ResponseController;
-import com.epay.EPayment.Controller.ServiceController;
-import com.epay.EPayment.Controller.UserController;
+import com.epay.EPayment.Controller.*;
 import com.epay.EPayment.Models.Customer;
 import com.epay.EPayment.Models.Response;
-import com.epay.EPayment.Util.Container;
+import com.epay.EPayment.Models.Transaction;
+import com.epay.EPayment.Transaction.ChargeTransaction;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Vector;
+import java.util.Map;
 
 @RestController
 public class CustomerAPI {
@@ -52,7 +50,7 @@ public class CustomerAPI {
             responseController.setSuccess(customerController.showAllDiscounts());
         } catch (Exception e) {
             responseController.setFailure(e.getMessage());
-            return response ;
+            return response;
         }
         return response;
     }
@@ -85,8 +83,71 @@ public class CustomerAPI {
     }
 
     @GetMapping("/customer/show-services")
-    public Vector<Container> getServices() {
+    public Response getServices() {
+        Response response = new Response();
+        responseController.setResponse(response);
+        if (!isValid())
+            return response;
         ServiceController serviceController = ServiceController.getInstance();
-        return serviceController.getServices();
+        responseController.setSuccess(serviceController.getServices());
+        return response;
     }
+
+    @GetMapping("/customer/show-payments")
+    public Response getPayments() {
+        Response response = new Response();
+        responseController.setResponse(response);
+        if (!isValid())
+            return response;
+        PaymentController paymentController = PaymentController.getInstance();
+        responseController.setSuccess(paymentController.getPayments());
+        return response;
+
+    }
+
+    @GetMapping("/customer/show-cards")
+    public Response getCards() {
+        Response response = new Response();
+        responseController.setResponse(response);
+        if (!isValid())
+            return response;
+        try {
+            responseController.setSuccess(customerController.getCards());
+        } catch (Exception e) {
+            responseController.setFailure(e.getMessage());
+        }
+        return response;
+    }
+
+    @PutMapping("/customer/charge-wallet")
+    public Response chargeWallet(@RequestBody Map<String, String> map) {
+        Response response = new Response();
+        responseController.setResponse(response);
+        if (!isValid())
+            return response;
+        double amount = Double.parseDouble(map.get("amount"));
+        int id = Integer.parseInt(map.get("cardId"));
+        String password = map.get("password");
+        CreditCard card;
+        try {
+            card = customerController.getCard(id);
+        } catch (Exception e) {
+            responseController.setFailure(e.getMessage());
+            return response;
+        }
+        try {
+            customerController.chargeWallet(
+                    card,
+                    amount,
+                    password);
+        } catch (Exception e) {
+            responseController.setFailure(e.getMessage());
+            return response;
+        }
+        Transaction transaction = new ChargeTransaction(customerController.getCustomer(), amount, card);
+        customerController.addTransaction(transaction);
+        responseController.setSuccess(amount + " added to your wallet successfully :)");
+        return response;
+    }
+
 }

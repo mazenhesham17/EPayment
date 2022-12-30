@@ -19,12 +19,19 @@ public class PaymentController {
         return paymentController;
     }
 
+    public Vector<Payment> getPayments() {
+        PaymentData paymentData = PaymentData.getInstance();
+        return paymentData.getPayments();
+    }
+
     public void setPayment(Payment payment) {
         this.payment = payment;
     }
 
     public void addPayment(Payment payment) {
         PaymentData paymentData = PaymentData.getInstance();
+        int id = paymentData.getPayments().size() + 1;
+        payment.setId(id);
         paymentData.getPayments().add(payment);
     }
 

@@ -29,17 +29,15 @@ public class CustomerController {
         return customerController;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
     public void addCard(CreditCard card) {
+        int id = customer.getCards().size() + 1;
+        card.setId(id);
         customer.getCards().add(card);
     }
 
     public Vector<Container> searchServices(String sub) throws Exception {
         Search search = new ConcreteSearch();
-        ServiceController serviceController = ServiceController.getInstance() ;
+        ServiceController serviceController = ServiceController.getInstance();
         return serviceController.getWebView(search.find(sub));
     }
 
@@ -48,15 +46,18 @@ public class CustomerController {
         return serviceController.chooseService(services, index);
     }
 
-    public CreditCard getCard(int index) {
-        return customer.getCards().get(index - 1);
+    public CreditCard getCard(int id) throws Exception {
+        if (customer.getCards().isEmpty())
+            throw new Exception("You don't have any cards :( ");
+        if (id < 1 || id > customer.getCards().size())
+            throw new Exception("Id not in the range from 1 to " + customer.getCards().size());
+        return customer.getCards().get(id - 1);
     }
 
     public void chargeWallet(CreditCard card, double cost, String password) throws Exception {
-        WalletController walletController = WalletController.getInstance() ;
+        WalletController walletController = WalletController.getInstance();
         walletController.setWallet(customer.getWallet());
         walletController.deposit(card, cost, password);
-        System.out.println(cost + " added to your wallet successfully :)");
     }
 
     public void setFormDataField(String key, String value) {
@@ -104,11 +105,11 @@ public class CustomerController {
     public void refund(Refund refund) throws Exception {
         Transaction transaction = refund.getTransaction();
         if (transaction instanceof PaymentTransaction) {
-            WalletController walletController = WalletController.getInstance() ;
+            WalletController walletController = WalletController.getInstance();
             walletController.setWallet(customer.getWallet());
             walletController.deposit(transaction.getAmount());
         } else if (transaction instanceof ChargeTransaction) {
-            CreditCardController creditCardController = CreditCardController.getInstance() ;
+            CreditCardController creditCardController = CreditCardController.getInstance();
             creditCardController.setCreditCard(((ChargeTransaction) transaction).getCreditCard());
             creditCardController.deposit(transaction.getAmount());
         } else {
@@ -143,7 +144,6 @@ public class CustomerController {
         return customerView.showRefundableTransactions();
     }
 
-
     public void showAllTransactions() {
         CustomerView customerView = CustomerView.getInstance();
         customerView.setCustomer(customer);
@@ -157,5 +157,20 @@ public class CustomerController {
 
     public void update() {
         customer.increment();
+    }
+
+    public Vector<Container> getCards() throws Exception {
+        if (customer.getCards().isEmpty())
+            throw new Exception("There is no cards :(");
+        CreditCardController creditCardController = CreditCardController.getInstance();
+        return creditCardController.getCards(customer.getCards());
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

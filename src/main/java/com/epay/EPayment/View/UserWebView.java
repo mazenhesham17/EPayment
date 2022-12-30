@@ -1,7 +1,6 @@
 package com.epay.EPayment.View;
 
 import com.epay.EPayment.Controller.ContainerController;
-import com.epay.EPayment.Models.DiscountData;
 import com.epay.EPayment.Util.Container;
 
 public class UserWebView {
@@ -17,7 +16,7 @@ public class UserWebView {
         return userWebView;
     }
 
-    public Container showUser( String username , String email ){
+    public Container showUser(String username, String email) {
         Container container = new Container();
         ContainerController containerController = ContainerController.getInstance();
         containerController.setContainer(container);

@@ -29,22 +29,6 @@ public class CustomerView {
         }
     }
 
-    public void showCards() {
-        for (int i = 0; i < customer.getCards().size(); i++) {
-            CreditCardView creditCardView = CreditCardView.getInstance();
-            creditCardView.setCard(customer.getCards().get(i));
-            creditCardView.showCardName(i + 1);
-        }
-    }
-
-    private void showCardsDetails() {
-        for (int i = 0; i < customer.getCards().size(); i++) {
-            CreditCardView creditCardView = CreditCardView.getInstance();
-            creditCardView.setCard(customer.getCards().get(i));
-            creditCardView.showCardDetails();
-        }
-    }
-
     public void showCustomer() {
         System.out.println("Email : " + customer.getEmail());
         System.out.println("Username : " + customer.getUsername());
@@ -106,12 +90,6 @@ public class CustomerView {
         if (!isFilled) {
             System.out.println("There is no refund requests :)");
         }
-    }
-
-    public void showProfile() {
-        showCustomer();
-        showWallet();
-        showCardsDetails();
     }
 
 }

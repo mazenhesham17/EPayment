@@ -112,15 +112,15 @@ public class UserController {
         user = null;
     }
 
-    public Vector<Container> getUsers(){
-        UserData userData = UserData.getInstance() ;
-        UserWebView userWebView = UserWebView.getInstance() ;
-        Vector<User> users = userData.getUsers() ;
-        Vector<Container> containers = new Vector<>() ;
-        for ( User conocreteUser : users ){
-            containers.add(userWebView.showUser(conocreteUser.getUsername(), conocreteUser.getEmail())) ;
+    public Vector<Container> getUsers() {
+        UserData userData = UserData.getInstance();
+        UserWebView userWebView = UserWebView.getInstance();
+        Vector<User> users = userData.getUsers();
+        Vector<Container> containers = new Vector<>();
+        for (User conocreteUser : users) {
+            containers.add(userWebView.showUser(conocreteUser.getUsername(), conocreteUser.getEmail()));
         }
-        return containers ;
+        return containers;
     }
 
     public Vector<Customer> getCustomers() {

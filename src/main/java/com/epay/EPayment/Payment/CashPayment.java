@@ -17,6 +17,8 @@ public class CashPayment extends Payment {
 
     @Override
     public Payment clone(int index) {
-        return new CashPayment(new PaymentDetails());
+        CashPayment cashPayment = new CashPayment(new PaymentDetails());
+        cashPayment.setId(this.getId());
+        return cashPayment;
     }
 }

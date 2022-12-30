@@ -1,7 +1,5 @@
 package com.epay.EPayment.Models;
 
-import com.epay.EPayment.Controller.FormDataController;
-
 import java.util.Vector;
 
 public abstract class Service {

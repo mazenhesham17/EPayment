@@ -12,7 +12,7 @@ public class CreditCardPayment extends Payment {
     }
 
     public void authenticate(String password) throws Exception {
-        CreditCardController creditCardController = CreditCardController.getInstance() ;
+        CreditCardController creditCardController = CreditCardController.getInstance();
         creditCardController.setCreditCard((CreditCard) balance);
         creditCardController.authenticate(password);
     }
@@ -30,14 +30,16 @@ public class CreditCardPayment extends Payment {
 
     @Override
     public void withdraw(double amount) throws Exception {
-        CreditCardController creditCardController = CreditCardController.getInstance() ;
+        CreditCardController creditCardController = CreditCardController.getInstance();
         creditCardController.setCreditCard((CreditCard) balance);
         creditCardController.withdraw(amount);
     }
 
     @Override
     public Payment clone(int index) {
-        return new CreditCardPayment(new PaymentDetails());
+        CreditCardPayment creditCardPayment = new CreditCardPayment(new PaymentDetails());
+        creditCardPayment.setId(this.getId());
+        return creditCardPayment;
     }
 
 }
