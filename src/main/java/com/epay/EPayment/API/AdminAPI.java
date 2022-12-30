@@ -3,6 +3,7 @@ package com.epay.EPayment.API;
 import com.epay.EPayment.Controller.*;
 import com.epay.EPayment.Discount.OverallDiscount;
 import com.epay.EPayment.Discount.SpecificDiscount;
+import com.epay.EPayment.Models.Customer;
 import com.epay.EPayment.Models.Response;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,6 +83,47 @@ public class AdminAPI {
             return response;
         adminController.addOverallDiscount(discount);
         responseController.setSuccess("Discount has been added Successfully");
+        return response;
+    }
+
+    @GetMapping("/admin/show-transactions")
+    public Response getUserTransactions(@RequestParam("id") int id) {
+        Response response = new Response();
+        responseController.setResponse(response);
+        if (!isValid())
+            return response;
+        Customer customer;
+        try {
+            customer = adminController.chooseCustomer(id);
+        } catch (Exception e) {
+            responseController.setFailure(e.getMessage());
+            return response;
+        }
+        CustomerController customerController = CustomerController.getInstance();
+        TransactionController transactionController = TransactionController.getInstance();
+        customerController.setCustomer(customer);
+
+        try {
+            responseController.setSuccess(transactionController.getTransactions());
+        } catch (Exception e) {
+            responseController.setFailure(e.getMessage());
+            return response;
+        }
+        return response;
+    }
+
+    @GetMapping("/admin/show-customers")
+    public Response getCustomers() {
+        Response response = new Response();
+        responseController.setResponse(response);
+        if (!isValid())
+            return response;
+        try {
+            responseController.setSuccess(adminController.getCustomers());
+        } catch (Exception e) {
+            responseController.setFailure(e.getMessage());
+            return response;
+        }
         return response;
     }
 }

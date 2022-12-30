@@ -16,12 +16,13 @@ public class UserWebView {
         return userWebView;
     }
 
-    public Container showUser(String username, String email) {
+    public Container showUser(String username, String email, int id) {
         Container container = new Container();
         ContainerController containerController = ContainerController.getInstance();
         containerController.setContainer(container);
         containerController.put("username", username);
         containerController.put("email", email);
+        containerController.put("id", id);
         return container;
     }
 }

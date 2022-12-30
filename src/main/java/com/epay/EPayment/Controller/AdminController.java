@@ -2,6 +2,7 @@ package com.epay.EPayment.Controller;
 
 import com.epay.EPayment.DataSet.UserData;
 import com.epay.EPayment.Models.*;
+import com.epay.EPayment.Util.Container;
 import com.epay.EPayment.View.AdminView;
 
 import java.util.Vector;
@@ -105,5 +106,15 @@ public class AdminController {
     public void update(Refund refund) {
         admin.getRefunds().add(refund);
         admin.increment();
+    }
+
+    public Customer chooseCustomer(int id) throws Exception {
+        UserController userController = UserController.getInstance();
+        return userController.chooseCustomer(id);
+    }
+
+    public Vector<Container> getCustomers() throws Exception {
+        UserController userController = UserController.getInstance();
+        return userController.getWebCustomers();
     }
 }

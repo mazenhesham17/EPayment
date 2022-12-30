@@ -37,6 +37,8 @@ public class UserController {
     public void addUser(User user) {
         UserData userData = UserData.getInstance();
         Vector<User> users = userData.getUsers();
+        int id = users.size() + 1;
+        user.setId(id);
         users.add(user);
     }
 
@@ -118,7 +120,7 @@ public class UserController {
         Vector<User> users = userData.getUsers();
         Vector<Container> containers = new Vector<>();
         for (User conocreteUser : users) {
-            containers.add(userWebView.showUser(conocreteUser.getUsername(), conocreteUser.getEmail()));
+            containers.add(userWebView.showUser(conocreteUser.getUsername(), conocreteUser.getEmail(), conocreteUser.getId()));
         }
         return containers;
     }
@@ -133,5 +135,30 @@ public class UserController {
             }
         }
         return result;
+    }
+
+    public Customer chooseCustomer(int id) throws Exception {
+        UserData userData = UserData.getInstance();
+        if (id < 1 || id > userData.getUsers().size())
+            throw new Exception("Id not in the range from 1 to " + userData.getUsers().size());
+        User user = userData.getUsers().get(id - 1);
+        if (user instanceof Admin)
+            throw new Exception("Admin don't have any Transactions");
+        return (Customer) user;
+    }
+
+    public Vector<Container> getWebCustomers() throws Exception {
+        UserData userData = UserData.getInstance();
+        UserWebView userWebView = UserWebView.getInstance();
+        Vector<User> users = userData.getUsers();
+        Vector<Container> containers = new Vector<>();
+        for (User conocreteUser : users) {
+            if (conocreteUser instanceof Customer) {
+                containers.add(userWebView.showUser(conocreteUser.getUsername(), conocreteUser.getEmail(), conocreteUser.getId()));
+            }
+        }
+        if (containers.isEmpty())
+            throw new Exception("There is no Customers");
+        return containers;
     }
 }

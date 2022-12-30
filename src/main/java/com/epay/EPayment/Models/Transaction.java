@@ -2,18 +2,17 @@ package com.epay.EPayment.Models;
 
 import com.epay.EPayment.Time.TimeManager;
 
-import java.util.Date;
-
 public abstract class Transaction {
     static int serial = 0;
     String paymentMethod;
     String transactionType;
     Customer customer;
-    Date date;
+    String date;
     double amount;
     int id;
 
     boolean requested;
+
 
     public Transaction(Customer customer, double amount) {
         id = ++serial;
@@ -21,6 +20,10 @@ public abstract class Transaction {
         this.customer = customer;
         this.amount = amount;
         this.requested = false;
+    }
+
+    public static int getSerial() {
+        return serial;
     }
 
     public String getTransactionType() {
@@ -47,11 +50,11 @@ public abstract class Transaction {
         return amount;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

@@ -8,6 +8,7 @@ public class User {
     String username;
 
     int notifications;
+    int id;
 
     Vector<Refund> refunds;
 
@@ -17,6 +18,14 @@ public class User {
         this.password = password;
         notifications = 0;
         refunds = new Vector<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getEmail() {

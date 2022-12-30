@@ -150,4 +150,19 @@ public class CustomerAPI {
         return response;
     }
 
+    @GetMapping("/customer/show-transactions")
+    public Response getTransactions() {
+        Response response = new Response();
+        responseController.setResponse(response);
+        if (!isValid())
+            return response;
+        TransactionController transactionController = TransactionController.getInstance();
+        try {
+            responseController.setSuccess(transactionController.getTransactions());
+        } catch (Exception e) {
+            responseController.setFailure(e.getMessage());
+            return response;
+        }
+        return response;
+    }
 }

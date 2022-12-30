@@ -138,17 +138,17 @@ public class CustomerController {
         customer.clear();
     }
 
-    public Vector<Transaction> showRefundableTransactions() {
-        CustomerView customerView = CustomerView.getInstance();
-        customerView.setCustomer(customer);
-        return customerView.showRefundableTransactions();
-    }
+//    public Vector<Transaction> showRefundableTransactions() {
+//        CustomerView customerView = CustomerView.getInstance();
+//        customerView.setCustomer(customer);
+//        return customerView.showRefundableTransactions();
+//    }
 
-    public void showAllTransactions() {
-        CustomerView customerView = CustomerView.getInstance();
-        customerView.setCustomer(customer);
-        customerView.showTransactions();
-    }
+//    public void showAllTransactions() {
+//        CustomerView customerView = CustomerView.getInstance();
+//        customerView.setCustomer(customer);
+//        customerView.showTransactions();
+//    }
 
     public void showCustomers(Vector<Customer> customers) {
         CustomerView customerView = CustomerView.getInstance();
@@ -172,5 +172,13 @@ public class CustomerController {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Vector<Transaction> getTransactions() {
+        return customer.getTransactions();
+    }
+
+    public String getUserName() {
+        return customer.getUsername();
     }
 }
