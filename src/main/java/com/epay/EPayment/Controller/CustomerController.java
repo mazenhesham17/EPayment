@@ -94,6 +94,8 @@ public class CustomerController {
     public void refund(Refund refund) throws Exception {
         Transaction transaction = refund.getTransaction();
         TransactionController transactionController = TransactionController.getInstance();
+        RefundController refundController = RefundController.getInstance() ;
+        transactionController.setTransaction(refundController.getTransaction());
         if (transaction instanceof PaymentTransaction) {
             WalletController walletController = WalletController.getInstance();
             walletController.setWallet(customer.getWallet());

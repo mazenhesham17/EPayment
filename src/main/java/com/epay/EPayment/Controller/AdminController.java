@@ -37,7 +37,8 @@ public class AdminController {
         CustomerController customerController = CustomerController.getInstance();
 
         for (User user : users) {
-            if (user instanceof Customer) {
+            if (user instanceof Customer customer) {
+                customerController.setCustomer(customer);
                 discountController.setDiscountData(customerController.getDiscountData());
                 discountController.addSpecificDiscount(discount, service);
             }
@@ -50,7 +51,8 @@ public class AdminController {
         Vector<User> users = userData.getUsers();
         CustomerController customerController = CustomerController.getInstance();
         for (User user : users) {
-            if (user instanceof Customer) {
+            if (user instanceof Customer customer) {
+                customerController.setCustomer(customer);
                 discountController.setDiscountData(customerController.getDiscountData());
                 discountController.addOverallDiscount(discount);
             }

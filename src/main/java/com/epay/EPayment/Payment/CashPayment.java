@@ -9,7 +9,7 @@ public class CashPayment extends Payment {
 
     @Override
     public void withdraw(double amount) throws Exception {
-        System.out.println("You will pay " + amount + " in delivery");
+        String text = ("You will pay " + amount + " in delivery") ;
     }
 
     @Override
