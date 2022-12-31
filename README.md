@@ -111,7 +111,7 @@ PUT /customer/charge-wallet
 }
 ```
 
-### Get Wallet ###
+### Get wallet ###
 
 Allow you to see all the credit cards.
 
@@ -208,7 +208,7 @@ POST /customer/use-service
 }
 ```
 
-### Pay with Wallet ###
+### Pay with wallet ###
 
 Example
 ```
@@ -259,17 +259,121 @@ The request Parameters needs to include the following prameters:
 
 Example
 ```
-POST `/customer/apply-refund?id=1`
+POST /customer/apply-refund?id=1
 ```
 
 ### Get refunds ### 
 
-Allow you to see all refunds.
+Allow you to see all refund requests.
 
  GET `/customer/show-refunds`
+ 
+ # Admin 
+ 
+ ### Get categories ###
+ 
+ Allow admin to see categories.
+ 
+  GET `/admin/show-categories`
+ 
+### Add overall discount ###
 
+Allow admin to add discount to all categories.
 
+ POST `/admin/add-overall-discount`
+ 
+ The request body needs to be in JSON format and include the following properties:
 
+ - `name` - String  - Required
+ - `percentage` - Integer  - Required
+ 
+Example
+```
+POST /admin/add-overall-discount
+{
+    "name" : "Welcome 50" ,
+    "percentage" : 50
+}
+```
+
+### Add specific discount ###
+
+Allow admin to add discount to specific category.
+
+ POST `admin/add-specific-discount`
+
+ The request body needs to be in JSON format and include the following properties:
+ 
+ - `name` - String  - Required
+ - `percentage` - Integer  - Required
+ - `categoryId` - Integer  - Required
+ 
+Example
+```
+POST admin/add-specific-discount
+{
+    "name" : "internet 20" ,
+    "percentage" : 20 ,
+    "categoryId" : 2
+}
+```
+
+### Get customers ###
+
+Allow admin to show customers
+
+ GET `admin/show-customers`
+  
+### Get customer transactions ###
+
+Allow admin to see specific customer transaction.
+
+ GET `admin/show-transactions?id={id}`
+ 
+ The request Parameters needs to include the following prameters:
+
+ - `id` - Integer - Required
+
+Example
+```
+GET /admin/show-transactions?id=2
+```
+
+### Get refunds ### 
+
+Allow admin to see all refund requests.
+
+ GET `/admin/show-refunds`
+ 
+### Accept refund ###
+
+Allow admin to accept refund request.
+
+ PUT `admin/accept-refund?id={id}`
+ 
+ The request Parameters needs to include the following prameters:
+
+ - `id` - Integer - Required
+
+Example
+```
+PUT /admin/accept-refund?id=2
+```
+
+### Reject refund ###
+
+Allow admin to reject refund request.
+
+ PUT `admin/reject-refund?id={id}`
+ 
+ The request Parameters needs to include the following prameters:
+
+ - `id` - Integer - Required
+
+Example
+```
+PUT /admin/reject-refund?id=1
+```
  
 
 
