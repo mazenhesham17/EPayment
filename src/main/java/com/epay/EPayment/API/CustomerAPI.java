@@ -30,13 +30,13 @@ public class CustomerAPI {
         return true;
     }
 
-    @GetMapping("/customer/show-profile")
-    public Response showProfile() {
+    @GetMapping("/customer/show-wallet")
+    public Response showWallet() {
         Response response = new Response();
         responseController.setResponse(response);
         if (!isValid())
             return response;
-        responseController.setSuccess(userController.getUser());
+        responseController.setSuccess(customerController.getWallet());
         return response;
     }
 
@@ -265,6 +265,53 @@ public class CustomerAPI {
             discountController.returnDiscounts(discounts);
             return response;
         }
+        return response;
+    }
+
+    @GetMapping("/customer/show-refunds")
+    public Response getRefunds() {
+        Response response = new Response();
+        responseController.setResponse(response);
+        if (!isValid())
+            return response;
+        try {
+            responseController.setSuccess(customerController.getRefunds());
+        } catch (Exception e) {
+            responseController.setFailure(e.getMessage());
+            return response;
+        }
+        return response;
+    }
+
+    @PostMapping("/customer/apply-refund")
+    public Response applyRefund(@RequestParam("id") int id) {
+        Response response = new Response();
+        responseController.setResponse(response);
+        if (!isValid())
+            return response;
+        Transaction transaction;
+        TransactionController transactionController = TransactionController.getInstance();
+        try {
+            transaction = transactionController.chooseTransaction(id);
+        } catch (Exception e) {
+            responseController.setFailure(e.getMessage());
+            return response;
+        }
+        customerController.addRefund(transaction);
+        responseController.setSuccess("Your request has been submitted successfully");
+        return response;
+    }
+
+    @GetMapping("/customer/check-notifications")
+    public Response checkNotifications() {
+        Response response = new Response();
+        responseController.setResponse(response);
+        if (!isValid())
+            return response;
+        if (userController.checkNotifications())
+            responseController.setSuccess(userController.showNotifications());
+        else
+            responseController.setFailure("There is no new updates");
         return response;
     }
 }

@@ -24,8 +24,4 @@ public class RefundTransaction extends Transaction {
     public int getRefundedID() {
         return refundedID;
     }
-
-    public void setRefundedID(int refundedID) {
-        this.refundedID = refundedID;
-    }
 }

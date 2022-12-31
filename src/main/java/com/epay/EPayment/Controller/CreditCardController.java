@@ -2,7 +2,7 @@ package com.epay.EPayment.Controller;
 
 import com.epay.EPayment.Balance.CreditCard;
 import com.epay.EPayment.Util.Container;
-import com.epay.EPayment.View.CreditCardWebView;
+import com.epay.EPayment.WebView.CreditCardWebView;
 
 import java.util.Vector;
 

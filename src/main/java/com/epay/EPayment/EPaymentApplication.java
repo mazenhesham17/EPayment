@@ -1,7 +1,7 @@
 package com.epay.EPayment;
 
+import com.epay.EPayment.Controller.CategoryController;
 import com.epay.EPayment.Controller.PaymentController;
-import com.epay.EPayment.Controller.ServiceController;
 import com.epay.EPayment.Controller.UserController;
 import com.epay.EPayment.Models.Admin;
 import com.epay.EPayment.Models.Payment;
@@ -29,7 +29,7 @@ public class EPaymentApplication {
     @PostConstruct
     public void initialize() {
         UserController userController = UserController.getInstance();
-        ServiceController serviceController = ServiceController.getInstance();
+        CategoryController categoryController = CategoryController.getInstance();
 
         userController.addUser(new Admin("admin@epay.com", "admin", "admin"));
         PaymentController paymentController = PaymentController.getInstance();
@@ -45,16 +45,16 @@ public class EPaymentApplication {
         companies.add("Orange");
         companies.add("We");
         // mobile
-        serviceController.addCategory(new MobileRechargeService("Mobile Recharge", "Amount", payments), companies);
+        categoryController.addCategory(new MobileRechargeService("Mobile Recharge", "Amount", payments), companies);
 
         // internet
-        serviceController.addCategory(new InternetPaymentService("Internet Payment", "Internet bundle", payments), companies);
+        categoryController.addCategory(new InternetPaymentService("Internet Payment", "Internet bundle", payments), companies);
         companies = new Vector<>();
         companies.add("Quarter Bill");
         companies.add("Monthly Bill");
 
         // landline
-        serviceController.addCategory(new LandlineService("Landline", "Landline Bill", payments), companies);
+        categoryController.addCategory(new LandlineService("Landline", "Landline Bill", payments), companies);
 
         // donations
         payments = new Vector<>();
@@ -65,7 +65,7 @@ public class EPaymentApplication {
         companies.add("Cancer Hospital");
         companies.add("Schools");
         companies.add("NGOs( Non Profitable Organizations)");
-        serviceController.addCategory(new DonationsService("Donation", "Monthly Donation", payments), companies);
+        categoryController.addCategory(new DonationsService("Donation", "Monthly Donation", payments), companies);
     }
 }
 

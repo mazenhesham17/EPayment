@@ -1,7 +1,6 @@
 package com.epay.EPayment.Controller;
 
 import com.epay.EPayment.Models.FormData;
-import com.epay.EPayment.View.FormDataView;
 
 public class FormDataController {
     static FormDataController formDataController = null;
@@ -22,12 +21,6 @@ public class FormDataController {
 
     public void setData(String key, String value) {
         formData.getFields().put(key, value);
-    }
-
-    public void showFormData() {
-        FormDataView formDataView = FormDataView.getInstance();
-        formDataView.setFormData(formData);
-        formDataView.showFormData();
     }
 
     public String getData(String key) {

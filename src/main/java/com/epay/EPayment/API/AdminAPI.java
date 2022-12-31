@@ -4,6 +4,7 @@ import com.epay.EPayment.Controller.*;
 import com.epay.EPayment.Discount.OverallDiscount;
 import com.epay.EPayment.Discount.SpecificDiscount;
 import com.epay.EPayment.Models.Customer;
+import com.epay.EPayment.Models.Refund;
 import com.epay.EPayment.Models.Response;
 import org.springframework.web.bind.annotation.*;
 
@@ -124,6 +125,80 @@ public class AdminAPI {
             responseController.setFailure(e.getMessage());
             return response;
         }
+        return response;
+    }
+
+    @GetMapping("/admin/show-refunds")
+    public Response getRefunds() {
+        Response response = new Response();
+        responseController.setResponse(response);
+        if (!isValid())
+            return response;
+        try {
+            responseController.setSuccess(adminController.getRefunds());
+        } catch (Exception e) {
+            responseController.setFailure(e.getMessage());
+            return response;
+        }
+        return response;
+    }
+
+    @PutMapping("/admin/accept-refund")
+    public Response acceptRefund(@RequestParam("id") int id) {
+        Response response = new Response();
+        responseController.setResponse(response);
+        if (!isValid())
+            return response;
+        Refund refund;
+        try {
+            refund = adminController.chooseRefund(id);
+        } catch (Exception e) {
+            responseController.setFailure(e.getMessage());
+            return response;
+        }
+        try {
+            adminController.acceptRefund(refund);
+        } catch (Exception e) {
+            responseController.setFailure(e.getMessage());
+            return response;
+        }
+        responseController.setSuccess("You accepted the refund Successfully :)");
+        return response;
+    }
+
+    @PutMapping("/admin/reject-refund")
+    public Response rejectRefund(@RequestParam("id") int id) {
+        Response response = new Response();
+        responseController.setResponse(response);
+        if (!isValid())
+            return response;
+        Refund refund;
+        try {
+            refund = adminController.chooseRefund(id);
+        } catch (Exception e) {
+            responseController.setFailure(e.getMessage());
+            return response;
+        }
+        try {
+            adminController.rejectRefund(refund);
+        } catch (Exception e) {
+            responseController.setFailure(e.getMessage());
+            return response;
+        }
+        responseController.setSuccess("You rejected the refund :(");
+        return response;
+    }
+
+    @GetMapping("/admin/check-notifications")
+    public Response checkNotifications() {
+        Response response = new Response();
+        responseController.setResponse(response);
+        if (!isValid())
+            return response;
+        if (userController.checkNotifications())
+            responseController.setSuccess(userController.showNotifications());
+        else
+            responseController.setFailure("There is no new updates");
         return response;
     }
 }

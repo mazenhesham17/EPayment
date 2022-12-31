@@ -6,7 +6,7 @@ import com.epay.EPayment.Models.Discount;
 import com.epay.EPayment.Models.DiscountData;
 import com.epay.EPayment.Models.Service;
 import com.epay.EPayment.Util.Container;
-import com.epay.EPayment.View.DiscountWebView;
+import com.epay.EPayment.WebView.DiscountWebView;
 
 import java.util.Map;
 import java.util.Vector;

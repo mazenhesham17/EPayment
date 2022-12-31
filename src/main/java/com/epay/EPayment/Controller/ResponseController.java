@@ -38,4 +38,8 @@ public class ResponseController {
         response.setStatus(false);
         response.setMessage(message);
     }
+
+    public void setObject(Object object) {
+        response.setObject(object);
+    }
 }

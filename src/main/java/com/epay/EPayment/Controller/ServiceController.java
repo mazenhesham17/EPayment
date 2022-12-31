@@ -4,13 +4,8 @@ import com.epay.EPayment.DataSet.ServiceData;
 import com.epay.EPayment.Models.Discount;
 import com.epay.EPayment.Models.Payment;
 import com.epay.EPayment.Models.Service;
-import com.epay.EPayment.Service.DonationsService;
-import com.epay.EPayment.Service.InternetPaymentService;
-import com.epay.EPayment.Service.LandlineService;
-import com.epay.EPayment.Service.MobileRechargeService;
 import com.epay.EPayment.Util.Container;
-import com.epay.EPayment.Util.Pair;
-import com.epay.EPayment.View.ServiceWebView;
+import com.epay.EPayment.WebView.ServiceWebView;
 
 import java.util.HashMap;
 import java.util.Vector;
@@ -61,11 +56,6 @@ public class ServiceController {
         Payment payment = service.getPayments().get(id - 1).clone(0);
         service.setCurrentPayment(payment);
         return payment;
-    }
-
-    public void showPayments() {
-        PaymentController paymentController = PaymentController.getInstance();
-        paymentController.showPayments(service.getPayments());
     }
 
     public Payment getCurrentPayment() {
@@ -149,37 +139,4 @@ public class ServiceController {
         Vector<Service> services = serviceData.getServices();
         return getWebView(services);
     }
-
-    public void addCategory(Service service, Vector<String> companies) {
-        ServiceData serviceData = ServiceData.getInstance();
-        int id = serviceData.getCategories().size() + 1;
-        serviceData.getCategories().put(service, new Pair(id, companies));
-        Vector<Service> services = serviceData.getServices();
-        for (String company : companies) {
-            id = services.size() + 1;
-            if (service instanceof DonationsService) {
-                DonationsService donationsService = new DonationsService((DonationsService) service);
-                donationsService.setCompanyName(company);
-                donationsService.setId(id);
-                services.add(donationsService);
-            } else if (service instanceof MobileRechargeService) {
-                MobileRechargeService mobileRechargeService = new MobileRechargeService((MobileRechargeService) service);
-                mobileRechargeService.setCompanyName(company);
-                mobileRechargeService.setId(id);
-                services.add(mobileRechargeService);
-            } else if (service instanceof LandlineService) {
-                LandlineService landlineService = new LandlineService((LandlineService) service);
-                landlineService.setCompanyName(company);
-                landlineService.setId(id);
-                services.add(landlineService);
-            } else if (service instanceof InternetPaymentService) {
-                InternetPaymentService internetPaymentService = new InternetPaymentService((InternetPaymentService) service);
-                internetPaymentService.setCompanyName(company);
-                internetPaymentService.setId(id);
-                services.add(internetPaymentService);
-            }
-        }
-    }
-
-
 }

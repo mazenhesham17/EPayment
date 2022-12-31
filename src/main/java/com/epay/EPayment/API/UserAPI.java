@@ -20,8 +20,8 @@ public class UserAPI {
     ResponseController responseController = ResponseController.getInstance();
 
     @PostMapping("/sign-up")
-    public Response signUp(@RequestBody Customer customer) {
-        Response response = new Response<>();
+    public Response<String> signUp(@RequestBody Customer customer) {
+        Response<String> response = new Response<>();
         responseController.setResponse(response);
         try {
             userController.signUp(customer);
@@ -35,8 +35,8 @@ public class UserAPI {
     }
 
     @PostMapping("/sign-in")
-    public Response signIn(@RequestBody User user) {
-        Response response = new Response<>();
+    public Response<String> signIn(@RequestBody User user) {
+        Response<String> response = new Response<>();
         responseController.setResponse(response);
         try {
             userController.signIn(user);
@@ -52,12 +52,14 @@ public class UserAPI {
             return response;
         }
         responseController.setSuccess("Welcome " + userController.getUsername() + " :)");
+        if (userController.checkNotifications())
+            responseController.setObject(userController.showNotifications());
         return response;
     }
 
     @PutMapping("/sign-out")
-    public Response signUp() {
-        Response response = new Response<>();
+    public Response<String> signUp() {
+        Response<String> response = new Response<>();
         responseController.setResponse(response);
         try {
             userController.signOut();

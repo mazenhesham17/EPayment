@@ -3,7 +3,6 @@ package com.epay.EPayment.Controller;
 import com.epay.EPayment.DataSet.UserData;
 import com.epay.EPayment.Models.*;
 import com.epay.EPayment.Util.Container;
-import com.epay.EPayment.View.AdminView;
 
 import java.util.Vector;
 
@@ -32,8 +31,7 @@ public class AdminController {
         Service service = categoryController.getCategory(id, 0);
 
         for (User user : users) {
-            if (user instanceof Customer) {
-                Customer customer = (Customer) user;
+            if (user instanceof Customer customer) {
                 discountController.setDiscountData(customer.getDiscountData());
                 discountController.addSpecificDiscount(discount, service);
             }
@@ -45,35 +43,35 @@ public class AdminController {
         UserData userData = UserData.getInstance();
         Vector<User> users = userData.getUsers();
         for (User user : users) {
-            if (user instanceof Customer) {
-                Customer customer = (Customer) user;
+            if (user instanceof Customer customer) {
                 discountController.setDiscountData(customer.getDiscountData());
                 discountController.addOverallDiscount(discount);
             }
         }
     }
 
-    public void checkNotifications() {
-        if (admin.getNotifications() != 0) {
-            AdminView adminView = AdminView.getInstance();
-            adminView.setAdmin(admin);
-            adminView.showUpdates();
-        }
+    public Vector<Container> getRefunds() throws Exception {
+        if (admin.getRefunds().isEmpty())
+            throw new Exception("There is no refund requests :)");
+        RefundController refundController = RefundController.getInstance();
+        admin.clear();
+        return refundController.getRefunds(admin.getRefunds());
     }
 
-    public Vector<Refund> showPendingRefunds() {
-        AdminView adminView = AdminView.getInstance();
-        adminView.setAdmin(admin);
-        admin.clear();
-        return adminView.showPendingRefunds();
+    public Refund chooseRefund(int id) throws Exception {
+        Vector<Refund> refunds = admin.getRefunds();
+        for (Refund refund : refunds) {
+            if (refund.getId() == id)
+                return refund;
+        }
+        throw new Exception("There is no refund with id " + id);
     }
 
     private void notifyOthers() {
         UserData userData = UserData.getInstance();
         Vector<User> users = userData.getUsers();
         for (User user : users) {
-            if (user instanceof Admin) {
-                Admin adminUser = (Admin) user;
+            if (user instanceof Admin adminUser) {
                 if (adminUser != admin) {
                     adminUser.decrement();
                 }
@@ -84,6 +82,8 @@ public class AdminController {
     public void acceptRefund(Refund refund) throws Exception {
         RefundController refundController = RefundController.getInstance();
         refundController.setRefund(refund);
+        if (!refundController.isPending())
+            throw new Exception("You can not change the state of already changed refund !!");
         refundController.acceptRefund();
         CustomerController customerController = CustomerController.getInstance();
         customerController.setCustomer(refundController.getCustomer());
@@ -95,10 +95,11 @@ public class AdminController {
     public void rejectRefund(Refund refund) throws Exception {
         RefundController refundController = RefundController.getInstance();
         refundController.setRefund(refund);
+        if (!refundController.isPending())
+            throw new Exception("You can not change the state of already changed refund !!");
         refundController.rejectRefund();
         CustomerController customerController = CustomerController.getInstance();
         customerController.setCustomer(refundController.getCustomer());
-        customerController.refund(refund);
         customerController.update();
         notifyOthers();
     }

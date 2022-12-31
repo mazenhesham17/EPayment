@@ -1,4 +1,4 @@
-package com.epay.EPayment.View;
+package com.epay.EPayment.WebView;
 
 import com.epay.EPayment.Controller.ContainerController;
 import com.epay.EPayment.Util.Container;
@@ -24,5 +24,9 @@ public class UserWebView {
         containerController.put("email", email);
         containerController.put("id", id);
         return container;
+    }
+
+    public String showNotification(int freq) {
+        return "You have " + freq + " new updates";
     }
 }

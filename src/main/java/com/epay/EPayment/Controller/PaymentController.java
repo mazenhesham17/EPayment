@@ -3,7 +3,6 @@ package com.epay.EPayment.Controller;
 import com.epay.EPayment.DataSet.PaymentData;
 import com.epay.EPayment.Models.Balance;
 import com.epay.EPayment.Models.Payment;
-import com.epay.EPayment.View.PaymentView;
 
 import java.util.Vector;
 
@@ -42,11 +41,6 @@ public class PaymentController {
 
     public void setPassword(String password) {
         payment.setPassword(password);
-    }
-
-    public void showPayments(Vector<Payment> payments) {
-        PaymentView paymentView = PaymentView.getInstance();
-        paymentView.showPayments(payments);
     }
 
     public void setBalance(Balance balance) {

@@ -9,7 +9,7 @@ import com.epay.EPayment.Registration.EmailSignUp;
 import com.epay.EPayment.Registration.SignIn;
 import com.epay.EPayment.Registration.SignUp;
 import com.epay.EPayment.Util.Container;
-import com.epay.EPayment.View.UserWebView;
+import com.epay.EPayment.WebView.UserWebView;
 
 import java.util.Vector;
 
@@ -160,5 +160,14 @@ public class UserController {
         if (containers.isEmpty())
             throw new Exception("There is no Customers");
         return containers;
+    }
+
+    public boolean checkNotifications() {
+        return user.getNotifications() != 0;
+    }
+
+    public String showNotifications() {
+        UserWebView userWebView = UserWebView.getInstance();
+        return userWebView.showNotification(user.getNotifications());
     }
 }

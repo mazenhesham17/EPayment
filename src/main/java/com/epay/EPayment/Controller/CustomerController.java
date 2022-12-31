@@ -10,7 +10,6 @@ import com.epay.EPayment.Transaction.ChargeTransaction;
 import com.epay.EPayment.Transaction.PaymentTransaction;
 import com.epay.EPayment.Transaction.RefundTransaction;
 import com.epay.EPayment.Util.Container;
-import com.epay.EPayment.View.CustomerView;
 
 import java.util.HashMap;
 import java.util.Vector;
@@ -89,17 +88,12 @@ public class CustomerController {
     }
 
     public void addRefund(Transaction transaction) {
+        TransactionController transactionController = TransactionController.getInstance();
+        transactionController.setTransaction(transaction);
+        transactionController.setRequested();
         Refund refund = new Refund(transaction);
         customer.getRefunds().add(refund);
         notifyAdmins(refund);
-    }
-
-    public void checkNotifications() {
-        if (customer.getNotifications() != 0) {
-            CustomerView customerView = CustomerView.getInstance();
-            customerView.setCustomer(customer);
-            customerView.showUpdates();
-        }
     }
 
     public void refund(Refund refund) throws Exception {
@@ -131,28 +125,12 @@ public class CustomerController {
         }
     }
 
-    public void showRefunds() {
-        CustomerView customerView = CustomerView.getInstance();
-        customerView.setCustomer(customer);
-        customerView.showRefunds();
+    public Vector<Container> getRefunds() throws Exception {
+        if (customer.getRefunds().isEmpty())
+            throw new Exception("There is no refund requests :)");
+        RefundController refundController = RefundController.getInstance();
         customer.clear();
-    }
-
-//    public Vector<Transaction> showRefundableTransactions() {
-//        CustomerView customerView = CustomerView.getInstance();
-//        customerView.setCustomer(customer);
-//        return customerView.showRefundableTransactions();
-//    }
-
-//    public void showAllTransactions() {
-//        CustomerView customerView = CustomerView.getInstance();
-//        customerView.setCustomer(customer);
-//        customerView.showTransactions();
-//    }
-
-    public void showCustomers(Vector<Customer> customers) {
-        CustomerView customerView = CustomerView.getInstance();
-        customerView.showCustomers(customers);
+        return refundController.getRefunds(customer.getRefunds());
     }
 
     public void update() {

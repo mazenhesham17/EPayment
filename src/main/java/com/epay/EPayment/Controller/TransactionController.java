@@ -5,14 +5,15 @@ import com.epay.EPayment.Transaction.ChargeTransaction;
 import com.epay.EPayment.Transaction.PaymentTransaction;
 import com.epay.EPayment.Transaction.RefundTransaction;
 import com.epay.EPayment.Util.Container;
-import com.epay.EPayment.View.ChargeTransactionWebView;
-import com.epay.EPayment.View.PaymentTransactionWebView;
-import com.epay.EPayment.View.RefundTransactionWebView;
+import com.epay.EPayment.WebView.ChargeTransactionWebView;
+import com.epay.EPayment.WebView.PaymentTransactionWebView;
+import com.epay.EPayment.WebView.RefundTransactionWebView;
 
 import java.util.Vector;
 
 public class TransactionController {
     static TransactionController transactionController = null;
+
     Transaction transaction;
 
     private TransactionController() {
@@ -29,6 +30,33 @@ public class TransactionController {
         this.transaction = transaction;
     }
 
+    public int getID() {
+        return transaction.getId();
+    }
+
+    public double getAmount() {
+        return transaction.getAmount();
+    }
+
+    public void setRequested() {
+        transaction.setRequested(true);
+    }
+
+    public Transaction chooseTransaction(int id) throws Exception {
+        CustomerController customerController = CustomerController.getInstance();
+        Vector<Transaction> transactions = customerController.getTransactions();
+        for (Transaction transaction : transactions) {
+            if (transaction.getId() == id) {
+                if (transaction instanceof RefundTransaction)
+                    throw new Exception("Can not make refund request for refund transaction !!");
+                if (transaction.isRequested())
+                    throw new Exception("Can not make refund request for the same transaction twice !!");
+                return transaction;
+            }
+        }
+        throw new Exception("Can not find transaction with id " + id);
+    }
+
     public Vector<Container> getTransactions() throws Exception {
         Vector<Container> containers = new Vector<>();
         ChargeTransactionWebView chargeTransactionWebView = ChargeTransactionWebView.getInstance();
@@ -37,8 +65,7 @@ public class TransactionController {
         CustomerController customerController = CustomerController.getInstance();
         Vector<Transaction> transactions = customerController.getTransactions();
         for (Transaction transaction : transactions) {
-            if (transaction instanceof PaymentTransaction) {
-                PaymentTransaction paymentTransaction = (PaymentTransaction) transaction;
+            if (transaction instanceof PaymentTransaction paymentTransaction) {
                 Container container = paymentTransactionWebView.showPaymentTransaction(customerController.getUserName(),
                         paymentTransaction.getDate(), paymentTransaction.getId(),
                         paymentTransaction.getTransactionType(), paymentTransaction.getPaymentMethod(),
@@ -46,8 +73,7 @@ public class TransactionController {
                         paymentTransaction.getFormData(),
                         paymentTransaction.getBeforeDiscount(), paymentTransaction.getAmount());
                 containers.add(container);
-            } else if (transaction instanceof ChargeTransaction) {
-                ChargeTransaction chargeTransaction = (ChargeTransaction) transaction;
+            } else if (transaction instanceof ChargeTransaction chargeTransaction) {
                 Container container = chargeTransactionWebView.showChargeTransaction(customerController.getUserName(),
                         chargeTransaction.getDate(), chargeTransaction.getId(),
                         chargeTransaction.getTransactionType(), chargeTransaction.getPaymentMethod(),
