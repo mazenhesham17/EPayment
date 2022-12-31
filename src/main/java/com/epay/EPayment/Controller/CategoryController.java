@@ -35,7 +35,7 @@ public class CategoryController {
     public Service getCategory(int id, int dummy) throws Exception {
         ServiceData serviceData = ServiceData.getInstance();
         if (id < 1 || id > serviceData.getCategories().size())
-            throw new Exception("Id not in the range from 1 to " + serviceData.getCategories().size());
+            throw new Exception("Category id not in the range from 1 to " + serviceData.getCategories().size());
         for (Map.Entry<Service, Pair<Integer, Vector<String>>> entry : serviceData.getCategories().entrySet()) {
             if (id == entry.getValue().getFirst()) {
                 return entry.getKey();
@@ -47,7 +47,7 @@ public class CategoryController {
     public Container getCategory(int id) throws Exception {
         ServiceData serviceData = ServiceData.getInstance();
         if (id < 1 || id > serviceData.getCategories().size())
-            throw new Exception("Id not in the range from 1 to " + serviceData.getCategories().size());
+            throw new Exception("Category id not in the range from 1 to " + serviceData.getCategories().size());
         CategoryWebView categoryWebView = CategoryWebView.getInstance();
         for (Map.Entry<Service, Pair<Integer, Vector<String>>> entry : serviceData.getCategories().entrySet()) {
             if (id == entry.getValue().getFirst()) {

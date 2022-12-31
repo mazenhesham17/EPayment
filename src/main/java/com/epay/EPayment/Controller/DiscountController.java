@@ -1,5 +1,6 @@
 package com.epay.EPayment.Controller;
 
+import com.epay.EPayment.Discount.OverallDiscount;
 import com.epay.EPayment.Discount.SpecificDiscount;
 import com.epay.EPayment.Models.Discount;
 import com.epay.EPayment.Models.DiscountData;
@@ -44,7 +45,17 @@ public class DiscountController {
         discountData.getDiscounts().add(discount);
     }
 
-    public Vector<Container> showAll() throws Exception {
+
+    public Vector<Container> getWebDiscounts(Vector<Discount> discounts) {
+        DiscountWebView discountWebView = DiscountWebView.getInstance();
+        Vector<Container> containers = new Vector<>();
+        for (Discount concreteDiscount : discounts) {
+            containers.add(discountWebView.showDiscount(concreteDiscount.getName(), concreteDiscount.getPercentage(), concreteDiscount.getAppliedCategory()));
+        }
+        return containers;
+    }
+
+    public Vector<Container> getWebDiscounts() throws Exception {
         DiscountWebView discountWebView = DiscountWebView.getInstance();
         Vector<Discount> discounts = discountData.getDiscounts();
         Vector<Container> containers = new Vector<>();
@@ -86,6 +97,26 @@ public class DiscountController {
             }
         }
         return result;
+    }
+
+    public void returnDiscounts(Vector<Discount> discounts) {
+        for (Discount discount : discounts) {
+            if (discount instanceof OverallDiscount) {
+                discountController.addOverallDiscount(discount);
+            } else {
+                SpecificDiscount specificDiscount = (SpecificDiscount) discount;
+                discountController.addSpecificDiscount(specificDiscount, specificDiscount.getCategory());
+            }
+        }
+    }
+
+    public double applyDiscounts(double before, Vector<Discount> discounts) {
+        double percentage = 100;
+        for (Discount discount : discounts) {
+            percentage -= discount.getPercentage();
+        }
+        percentage /= 100;
+        return before * percentage;
     }
 
     public SpecificDiscount getSpecificDiscount(String name, int percentage, int id) throws Exception {

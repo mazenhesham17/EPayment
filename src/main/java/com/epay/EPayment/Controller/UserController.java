@@ -140,7 +140,7 @@ public class UserController {
     public Customer chooseCustomer(int id) throws Exception {
         UserData userData = UserData.getInstance();
         if (id < 1 || id > userData.getUsers().size())
-            throw new Exception("Id not in the range from 1 to " + userData.getUsers().size());
+            throw new Exception("Customer id not in the range from 1 to " + userData.getUsers().size());
         User user = userData.getUsers().get(id - 1);
         if (user instanceof Admin)
             throw new Exception("Admin don't have any Transactions");

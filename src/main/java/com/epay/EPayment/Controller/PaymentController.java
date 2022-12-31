@@ -1,6 +1,7 @@
 package com.epay.EPayment.Controller;
 
 import com.epay.EPayment.DataSet.PaymentData;
+import com.epay.EPayment.Models.Balance;
 import com.epay.EPayment.Models.Payment;
 import com.epay.EPayment.View.PaymentView;
 
@@ -46,6 +47,14 @@ public class PaymentController {
     public void showPayments(Vector<Payment> payments) {
         PaymentView paymentView = PaymentView.getInstance();
         paymentView.showPayments(payments);
+    }
+
+    public void setBalance(Balance balance) {
+        payment.setBalance(balance);
+    }
+
+    public void pay() throws Exception {
+        payment.pay();
     }
 
     public Payment getPayment(int index) {

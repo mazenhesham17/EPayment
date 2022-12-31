@@ -2,13 +2,14 @@ package com.epay.EPayment.API;
 
 import com.epay.EPayment.Balance.CreditCard;
 import com.epay.EPayment.Controller.*;
-import com.epay.EPayment.Models.Customer;
-import com.epay.EPayment.Models.Response;
-import com.epay.EPayment.Models.Transaction;
+import com.epay.EPayment.Models.*;
 import com.epay.EPayment.Transaction.ChargeTransaction;
+import com.epay.EPayment.Transaction.PaymentTransaction;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
 @RestController
 public class CustomerAPI {
@@ -30,12 +31,12 @@ public class CustomerAPI {
     }
 
     @GetMapping("/customer/show-profile")
-    public Response<Customer> showProfile() {
-        Response<Customer> response = new Response();
+    public Response showProfile() {
+        Response response = new Response();
         responseController.setResponse(response);
         if (!isValid())
             return response;
-        responseController.setSuccess((Customer) userController.getUser());
+        responseController.setSuccess(userController.getUser());
         return response;
     }
 
@@ -90,6 +91,22 @@ public class CustomerAPI {
             return response;
         ServiceController serviceController = ServiceController.getInstance();
         responseController.setSuccess(serviceController.getServices());
+        return response;
+    }
+
+    @GetMapping("/customer/show-service")
+    public Response getService(@RequestParam("id") int id) {
+        Response response = new Response();
+        responseController.setResponse(response);
+        if (!isValid())
+            return response;
+        ServiceController serviceController = ServiceController.getInstance();
+        try {
+            responseController.setSuccess(serviceController.getService(id));
+        } catch (Exception e) {
+            responseController.setFailure(e.getMessage());
+            return response;
+        }
         return response;
     }
 
@@ -161,6 +178,91 @@ public class CustomerAPI {
             responseController.setSuccess(transactionController.getTransactions());
         } catch (Exception e) {
             responseController.setFailure(e.getMessage());
+            return response;
+        }
+        return response;
+    }
+
+    @PostMapping("/customer/use-service")
+    public Response useService(@RequestBody Map<String, String> map) {
+        Response response = new Response();
+        responseController.setResponse(response);
+        if (!isValid())
+            return response;
+        ServiceController serviceController = ServiceController.getInstance();
+        // choose service
+        int serviceId = Integer.parseInt(map.get("serviceId"));
+        Service service;
+        try {
+            service = serviceController.chooseService(serviceId);
+            serviceController.setService(service);
+        } catch (Exception e) {
+            responseController.setFailure(e.getMessage());
+            return response;
+        }
+        // take form data
+        HashMap<String, String[]> fields = serviceController.getFormFields();
+        for (Map.Entry<String, String[]> entry : fields.entrySet()) {
+            String name = entry.getKey();
+            if (!map.containsKey(name)) {
+                responseController.setFailure(name + " Field is not available");
+                return response;
+            }
+            String[] items = entry.getValue();
+            String value;
+            if (items.length == 0) {
+                value = map.get(name);
+            } else {
+                int itemChoice = Integer.parseInt(map.get(name));
+                if (itemChoice < 1 || itemChoice > items.length) {
+                    responseController.setFailure("Invalid selection for " + name + " Field");
+                    return response;
+                }
+                value = items[itemChoice - 1];
+            }
+            serviceController.setFormDataField(name, value);
+        }
+        // use discount if there is
+        double before = serviceController.getCost();
+        DiscountController discountController = DiscountController.getInstance();
+        discountController.setDiscountData(customerController.getDiscountData());
+        Vector<Discount> discounts = discountController.useDiscounts(service);
+        double after = discountController.applyDiscounts(before, discounts);
+        // choose payment method
+        int paymentId = Integer.parseInt(map.get("paymentId"));
+        Payment payment;
+        try {
+            payment = serviceController.choosePayment(paymentId);
+        } catch (Exception e) {
+            responseController.setFailure(e.getMessage());
+            return response;
+        }
+        PaymentController paymentController = PaymentController.getInstance();
+        paymentController.setPayment(payment);
+        if (paymentId == 1) {
+            int cardId = Integer.parseInt(map.get("cardId"));
+            CreditCard creditCard;
+            try {
+                creditCard = customerController.getCard(cardId);
+                paymentController.setBalance(creditCard);
+            } catch (Exception e) {
+                responseController.setFailure(e.getMessage());
+                return response;
+            }
+            String password = map.get("password");
+            paymentController.setPassword(password);
+        } else if (paymentId == 2) {
+            paymentController.setBalance(customerController.getWallet());
+        }
+        paymentController.setCost(after);
+        try {
+            paymentController.pay();
+            responseController.setSuccess("Successful Payment :)", discountController.getWebDiscounts(discounts));
+            Transaction transaction = new PaymentTransaction(customerController.getCustomer(), service, before, after);
+            customerController.addTransaction(transaction);
+        } catch (Exception e) {
+            responseController.setFailure(e.getMessage());
+            discountController.returnDiscounts(discounts);
             return response;
         }
         return response;

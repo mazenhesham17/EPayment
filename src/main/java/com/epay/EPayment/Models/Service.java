@@ -73,4 +73,6 @@ public abstract class Service {
     }
 
     protected abstract void formInitializer();
+
+    public abstract Service clone(int dummy);
 }

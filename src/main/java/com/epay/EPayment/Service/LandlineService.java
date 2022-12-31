@@ -13,6 +13,7 @@ public class LandlineService extends Service {
 
     public LandlineService(LandlineService landlineService) {
         super(landlineService.getCategoryName(), landlineService.getKey(), landlineService.getPayments());
+        setCompanyName(landlineService.getCompanyName());
         formInitializer();
     }
 
@@ -21,6 +22,11 @@ public class LandlineService extends Service {
         FormController formController = FormController.getInstance();
         formController.setForm(super.getForm());
         formController.addField("Number", new String[]{});
+    }
+
+    @Override
+    public Service clone(int dummy) {
+        return new LandlineService(this);
     }
 
 

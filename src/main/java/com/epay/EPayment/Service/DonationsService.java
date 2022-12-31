@@ -13,6 +13,7 @@ public class DonationsService extends Service {
 
     public DonationsService(DonationsService donationsService) {
         super(donationsService.getCategoryName(), donationsService.getKey(), donationsService.getPayments());
+        setCompanyName(donationsService.getCompanyName());
         formInitializer();
     }
 
@@ -26,5 +27,11 @@ public class DonationsService extends Service {
                 "100", "250", "500", "10000"
         });
     }
+
+    @Override
+    public Service clone(int dummy) {
+        return new DonationsService(this);
+    }
+
 
 }

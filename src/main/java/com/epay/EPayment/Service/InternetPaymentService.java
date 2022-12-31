@@ -14,6 +14,7 @@ public class InternetPaymentService extends Service {
 
     public InternetPaymentService(InternetPaymentService internetPaymentService) {
         super(internetPaymentService.getCategoryName(), internetPaymentService.getKey(), internetPaymentService.getPayments());
+        setCompanyName(internetPaymentService.getCompanyName());
         formInitializer();
 
     }
@@ -26,6 +27,11 @@ public class InternetPaymentService extends Service {
         formController.addField("Internet bundle", new String[]{
                 "120", "170", "340", "500"
         });
+    }
+
+    @Override
+    public Service clone(int dummy) {
+        return new InternetPaymentService(this);
     }
 
 }

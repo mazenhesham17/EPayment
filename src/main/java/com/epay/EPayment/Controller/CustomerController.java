@@ -50,7 +50,7 @@ public class CustomerController {
         if (customer.getCards().isEmpty())
             throw new Exception("You don't have any cards :( ");
         if (id < 1 || id > customer.getCards().size())
-            throw new Exception("Id not in the range from 1 to " + customer.getCards().size());
+            throw new Exception("Card id not in the range from 1 to " + customer.getCards().size());
         return customer.getCards().get(id - 1);
     }
 
@@ -81,7 +81,7 @@ public class CustomerController {
     public Vector<Container> showAllDiscounts() throws Exception {
         DiscountController discountController = DiscountController.getInstance();
         discountController.setDiscountData(customer.getDiscountData());
-        return discountController.showAll();
+        return discountController.getWebDiscounts();
     }
 
     public void addTransaction(Transaction transaction) {

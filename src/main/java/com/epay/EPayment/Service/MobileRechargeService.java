@@ -13,6 +13,7 @@ public class MobileRechargeService extends Service {
 
     public MobileRechargeService(MobileRechargeService mobileRechargeService) {
         super(mobileRechargeService.getCategoryName(), mobileRechargeService.getKey(), mobileRechargeService.getPayments());
+        setCompanyName(mobileRechargeService.getCompanyName());
         formInitializer();
     }
 
@@ -22,6 +23,11 @@ public class MobileRechargeService extends Service {
         formController.setForm(super.getForm());
         formController.addField("Mobile number", new String[]{});
         formController.addField("Amount", new String[]{});
+    }
+
+    @Override
+    public Service clone(int dummy) {
+        return new MobileRechargeService(this);
     }
 
 
