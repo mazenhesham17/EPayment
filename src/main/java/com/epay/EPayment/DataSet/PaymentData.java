@@ -1,6 +1,6 @@
 package com.epay.EPayment.DataSet;
 
-import com.epay.EPayment.Models.Payment;
+import com.epay.EPayment.Payment.Payment;
 
 import java.util.Vector;
 

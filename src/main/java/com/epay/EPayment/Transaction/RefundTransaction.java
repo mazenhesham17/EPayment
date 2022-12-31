@@ -2,7 +2,6 @@ package com.epay.EPayment.Transaction;
 
 import com.epay.EPayment.Models.Customer;
 import com.epay.EPayment.Models.Refund;
-import com.epay.EPayment.Models.Transaction;
 
 public class RefundTransaction extends Transaction {
     Refund refund;

@@ -1,9 +1,9 @@
 package com.epay.EPayment.Controller;
 
 import com.epay.EPayment.DataSet.ServiceData;
-import com.epay.EPayment.Models.Discount;
-import com.epay.EPayment.Models.Payment;
-import com.epay.EPayment.Models.Service;
+import com.epay.EPayment.Discount.Discount;
+import com.epay.EPayment.Payment.Payment;
+import com.epay.EPayment.Service.Service;
 import com.epay.EPayment.Util.Container;
 import com.epay.EPayment.WebView.ServiceWebView;
 

@@ -1,6 +1,6 @@
 package com.epay.EPayment.Search;
 
-import com.epay.EPayment.Models.Service;
+import com.epay.EPayment.Service.Service;
 
 import java.util.Vector;
 

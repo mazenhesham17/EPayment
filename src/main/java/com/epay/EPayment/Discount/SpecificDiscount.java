@@ -1,7 +1,6 @@
 package com.epay.EPayment.Discount;
 
-import com.epay.EPayment.Models.Discount;
-import com.epay.EPayment.Models.Service;
+import com.epay.EPayment.Service.Service;
 
 public class SpecificDiscount extends Discount {
     Service category;

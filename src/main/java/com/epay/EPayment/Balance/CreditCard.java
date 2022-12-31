@@ -1,7 +1,5 @@
 package com.epay.EPayment.Balance;
 
-import com.epay.EPayment.Models.Balance;
-
 public class CreditCard extends Balance {
     String number;
     String password;

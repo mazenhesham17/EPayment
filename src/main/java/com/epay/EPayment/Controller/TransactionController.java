@@ -1,9 +1,9 @@
 package com.epay.EPayment.Controller;
 
-import com.epay.EPayment.Models.Transaction;
 import com.epay.EPayment.Transaction.ChargeTransaction;
 import com.epay.EPayment.Transaction.PaymentTransaction;
 import com.epay.EPayment.Transaction.RefundTransaction;
+import com.epay.EPayment.Transaction.Transaction;
 import com.epay.EPayment.Util.Container;
 import com.epay.EPayment.WebView.ChargeTransactionWebView;
 import com.epay.EPayment.WebView.PaymentTransactionWebView;

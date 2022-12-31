@@ -1,8 +1,8 @@
 package com.epay.EPayment.Controller;
 
+import com.epay.EPayment.Balance.Balance;
 import com.epay.EPayment.DataSet.PaymentData;
-import com.epay.EPayment.Models.Balance;
-import com.epay.EPayment.Models.Payment;
+import com.epay.EPayment.Payment.Payment;
 
 import java.util.Vector;
 

@@ -3,8 +3,7 @@ package com.epay.EPayment.Transaction;
 import com.epay.EPayment.Controller.ServiceController;
 import com.epay.EPayment.Models.Customer;
 import com.epay.EPayment.Models.FormData;
-import com.epay.EPayment.Models.Service;
-import com.epay.EPayment.Models.Transaction;
+import com.epay.EPayment.Service.Service;
 
 public class PaymentTransaction extends Transaction {
     String serviceName;

@@ -1,6 +1,6 @@
 package com.epay.EPayment.DataSet;
 
-import com.epay.EPayment.Models.Service;
+import com.epay.EPayment.Service.Service;
 import com.epay.EPayment.Util.Pair;
 
 import java.util.HashMap;

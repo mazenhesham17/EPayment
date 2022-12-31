@@ -1,8 +1,7 @@
 package com.epay.EPayment.Service;
 
 import com.epay.EPayment.Controller.FormController;
-import com.epay.EPayment.Models.Payment;
-import com.epay.EPayment.Models.Service;
+import com.epay.EPayment.Payment.Payment;
 
 import java.util.Vector;
 

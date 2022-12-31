@@ -1,4 +1,4 @@
-package com.epay.EPayment.Models;
+package com.epay.EPayment.Discount;
 
 public class Discount {
     String appliedCategory;

@@ -1,4 +1,4 @@
-package com.epay.EPayment.Models;
+package com.epay.EPayment.Discount;
 
 import java.util.HashMap;
 import java.util.Vector;

@@ -1,5 +1,7 @@
 package com.epay.EPayment.Models;
 
+import com.epay.EPayment.Transaction.Transaction;
+
 public class Refund {
     static int serial;
     Transaction transaction;

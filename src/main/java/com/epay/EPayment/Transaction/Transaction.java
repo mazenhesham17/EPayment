@@ -1,5 +1,6 @@
-package com.epay.EPayment.Models;
+package com.epay.EPayment.Transaction;
 
+import com.epay.EPayment.Models.Customer;
 import com.epay.EPayment.Time.TimeManager;
 
 public abstract class Transaction {

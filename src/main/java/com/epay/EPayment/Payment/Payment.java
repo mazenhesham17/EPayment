@@ -1,4 +1,6 @@
-package com.epay.EPayment.Models;
+package com.epay.EPayment.Payment;
+
+import com.epay.EPayment.Balance.Balance;
 
 abstract public class Payment {
     protected Balance balance;

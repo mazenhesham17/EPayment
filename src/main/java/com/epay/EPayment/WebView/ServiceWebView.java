@@ -2,7 +2,7 @@ package com.epay.EPayment.WebView;
 
 import com.epay.EPayment.Controller.ContainerController;
 import com.epay.EPayment.Models.Form;
-import com.epay.EPayment.Models.Payment;
+import com.epay.EPayment.Payment.Payment;
 import com.epay.EPayment.Util.Container;
 
 import java.util.Vector;

@@ -3,10 +3,12 @@ package com.epay.EPayment.Models;
 import com.epay.EPayment.Balance.CreditCard;
 import com.epay.EPayment.Balance.Wallet;
 import com.epay.EPayment.Controller.DiscountController;
+import com.epay.EPayment.Discount.DiscountData;
 import com.epay.EPayment.Service.DonationsService;
 import com.epay.EPayment.Service.InternetPaymentService;
 import com.epay.EPayment.Service.LandlineService;
 import com.epay.EPayment.Service.MobileRechargeService;
+import com.epay.EPayment.Transaction.Transaction;
 
 import java.util.Vector;
 

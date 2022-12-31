@@ -2,7 +2,7 @@ package com.epay.EPayment.Search;
 
 import com.epay.EPayment.Controller.ServiceController;
 import com.epay.EPayment.DataSet.ServiceData;
-import com.epay.EPayment.Models.Service;
+import com.epay.EPayment.Service.Service;
 
 import java.util.Vector;
 

@@ -1,11 +1,7 @@
 package com.epay.EPayment.Controller;
 
 import com.epay.EPayment.DataSet.ServiceData;
-import com.epay.EPayment.Models.Service;
-import com.epay.EPayment.Service.DonationsService;
-import com.epay.EPayment.Service.InternetPaymentService;
-import com.epay.EPayment.Service.LandlineService;
-import com.epay.EPayment.Service.MobileRechargeService;
+import com.epay.EPayment.Service.*;
 import com.epay.EPayment.Util.Container;
 import com.epay.EPayment.Util.Pair;
 import com.epay.EPayment.WebView.CategoryWebView;

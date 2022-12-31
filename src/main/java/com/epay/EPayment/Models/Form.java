@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class Form {
     HashMap<String, String[]> fields;
 
-    Form() {
+    public Form() {
         fields = new HashMap<>();
     }
 

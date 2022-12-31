@@ -2,8 +2,6 @@ package com.epay.EPayment.Payment;
 
 import com.epay.EPayment.Balance.Wallet;
 import com.epay.EPayment.Controller.WalletController;
-import com.epay.EPayment.Models.Payment;
-import com.epay.EPayment.Models.PaymentDetails;
 
 public class WalletPayment extends Payment {
     public WalletPayment(PaymentDetails paymentDetails) {

@@ -2,8 +2,6 @@ package com.epay.EPayment.Payment;
 
 import com.epay.EPayment.Balance.CreditCard;
 import com.epay.EPayment.Controller.CreditCardController;
-import com.epay.EPayment.Models.Payment;
-import com.epay.EPayment.Models.PaymentDetails;
 
 public class CreditCardPayment extends Payment {
     public CreditCardPayment(PaymentDetails paymentDetails) {

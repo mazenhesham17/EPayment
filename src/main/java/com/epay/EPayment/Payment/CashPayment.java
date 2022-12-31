@@ -1,8 +1,5 @@
 package com.epay.EPayment.Payment;
 
-import com.epay.EPayment.Models.Payment;
-import com.epay.EPayment.Models.PaymentDetails;
-
 public class CashPayment extends Payment {
     public CashPayment(PaymentDetails paymentDetails) {
         super(paymentDetails);
