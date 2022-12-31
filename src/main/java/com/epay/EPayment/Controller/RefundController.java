@@ -3,6 +3,7 @@ package com.epay.EPayment.Controller;
 import com.epay.EPayment.Models.Customer;
 import com.epay.EPayment.Models.Refund;
 import com.epay.EPayment.Models.RefundState;
+import com.epay.EPayment.Transaction.Transaction;
 import com.epay.EPayment.Util.Container;
 import com.epay.EPayment.WebView.RefundWebView;
 
@@ -20,6 +21,10 @@ public class RefundController {
         if (refundController == null)
             refundController = new RefundController();
         return refundController;
+    }
+
+    public int getId() {
+        return refund.getId();
     }
 
     public Vector<Container> getRefunds(Vector<Refund> refunds) {
@@ -58,5 +63,9 @@ public class RefundController {
 
     public boolean isPending() {
         return refund.getRefundState() == RefundState.PENDING;
+    }
+
+    public Transaction getTransaction() {
+        return refund.getTransaction();
     }
 }

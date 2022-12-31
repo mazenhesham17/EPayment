@@ -1,7 +1,7 @@
 package com.epay.EPayment.Controller;
 
 import com.epay.EPayment.DataSet.ServiceData;
-import com.epay.EPayment.Discount.Discount;
+import com.epay.EPayment.Models.FormData;
 import com.epay.EPayment.Payment.Payment;
 import com.epay.EPayment.Service.Service;
 import com.epay.EPayment.Util.Container;
@@ -39,10 +39,9 @@ public class ServiceController {
         return formController.getFields();
     }
 
-    public void setFormDataField(String key, String value) {
-        FormDataController formDataController = FormDataController.getInstance();
-        formDataController.setFormData(service.getFormData());
-        formDataController.setData(key, value);
+
+    public FormData getFormData() {
+        return service.getFormData();
     }
 
     public void addPaymentMethod(Payment payment) {
@@ -50,7 +49,7 @@ public class ServiceController {
     }
 
     public Payment choosePayment(int id) throws Exception {
-        if (id < 1 || id > serviceController.getPayments().size()) {
+        if (id < 1 || id > service.getPayments().size()) {
             throw new Exception("Payment id is not in range from 1 to " + service.getPayments().size());
         }
         Payment payment = service.getPayments().get(id - 1).clone(0);
@@ -86,19 +85,8 @@ public class ServiceController {
         return serviceData.getServices().get(index - 1);
     }
 
-    public void setDiscountData() {
-        CustomerController customerController = CustomerController.getInstance();
-        DiscountController discountController = DiscountController.getInstance();
-        discountController.setDiscountData(customerController.getDiscountData());
-    }
-
     public String getName() {
         return service.getCompanyName() + " " + service.getCategoryName();
-    }
-
-    public Vector<Discount> useDiscounts() {
-        DiscountController discountController = DiscountController.getInstance();
-        return discountController.useDiscounts(service);
     }
 
     public Vector<Payment> getPayments() {
@@ -124,6 +112,12 @@ public class ServiceController {
         Service concreteService = serviceData.getServices().get(id - 1);
         service = concreteService;
         return serviceWebView.showService(serviceController.getName(), concreteService.getId(), concreteService.getForm(), concreteService.getPayments());
+    }
+
+    public String getCurrentPaymentName() {
+        PaymentController paymentController = PaymentController.getInstance();
+        paymentController.setPayment(service.getCurrentPayment());
+        return paymentController.getName();
     }
 
 

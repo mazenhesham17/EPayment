@@ -30,7 +30,6 @@ public class UserAPI {
             return response;
         }
         responseController.setSuccess("User Registered Successfully :)");
-        response.setStatus(true);
         return response;
     }
 
@@ -58,7 +57,7 @@ public class UserAPI {
     }
 
     @PutMapping("/sign-out")
-    public Response<String> signUp() {
+    public Response<String> signOut() {
         Response<String> response = new Response<>();
         responseController.setResponse(response);
         try {

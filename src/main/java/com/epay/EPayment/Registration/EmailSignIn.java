@@ -15,7 +15,7 @@ public class EmailSignIn implements SignIn {
         UserController userController = UserController.getInstance();
         user = userController.checkPassword(user);
         if (user == null)
-            throw new Exception("The password is incorrect");
+            throw new Exception("The password is incorrect :(");
         return user;
     }
 

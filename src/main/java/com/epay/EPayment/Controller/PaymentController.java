@@ -47,6 +47,11 @@ public class PaymentController {
         payment.setBalance(balance);
     }
 
+
+    public String getName() {
+        return payment.getName();
+    }
+
     public void pay() throws Exception {
         payment.pay();
     }

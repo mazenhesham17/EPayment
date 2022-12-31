@@ -1,5 +1,6 @@
 package com.epay.EPayment.Controller;
 
+import com.epay.EPayment.Models.Customer;
 import com.epay.EPayment.Transaction.ChargeTransaction;
 import com.epay.EPayment.Transaction.PaymentTransaction;
 import com.epay.EPayment.Transaction.RefundTransaction;
@@ -57,6 +58,15 @@ public class TransactionController {
         throw new Exception("Can not find transaction with id " + id);
     }
 
+
+    public int getId() {
+        return transaction.getId();
+    }
+
+    public Customer getCustomer() {
+        return transaction.getCustomer();
+    }
+
     public Vector<Container> getTransactions() throws Exception {
         Vector<Container> containers = new Vector<>();
         ChargeTransactionWebView chargeTransactionWebView = ChargeTransactionWebView.getInstance();
@@ -74,10 +84,12 @@ public class TransactionController {
                         paymentTransaction.getBeforeDiscount(), paymentTransaction.getAmount());
                 containers.add(container);
             } else if (transaction instanceof ChargeTransaction chargeTransaction) {
+                CreditCardController creditCardController = CreditCardController.getInstance();
+                creditCardController.setCreditCard(chargeTransaction.getCreditCard());
                 Container container = chargeTransactionWebView.showChargeTransaction(customerController.getUserName(),
                         chargeTransaction.getDate(), chargeTransaction.getId(),
                         chargeTransaction.getTransactionType(), chargeTransaction.getPaymentMethod(),
-                        chargeTransaction.getCreditCard().getName(),
+                        creditCardController.getName(),
                         chargeTransaction.getAmount());
                 containers.add(container);
             } else {

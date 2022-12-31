@@ -48,5 +48,5 @@ abstract public class Payment {
 
     public abstract void withdraw(double amount) throws Exception;
 
-    public abstract Payment clone(int index);
+    public abstract Payment clone(int dummy);
 }

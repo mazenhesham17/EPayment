@@ -45,14 +45,14 @@ public class CustomerAPI {
     }
 
     @GetMapping("/customer/show-discounts")
-    public Response showDiscounts() {
+    public Response getDiscounts() {
         Response response = new Response();
         responseController.setResponse(response);
         if (!isValid())
             return response;
 
         try {
-            responseController.setSuccess(customerController.showAllDiscounts());
+            responseController.setSuccess(customerController.getAllDiscounts());
         } catch (Exception e) {
             responseController.setFailure(e.getMessage());
             return response;
@@ -67,7 +67,9 @@ public class CustomerAPI {
         if (!isValid())
             return response;
         customerController.addCard(card);
-        responseController.setSuccess(card.getName() + " is added successfully :)");
+        CreditCardController creditCardController = CreditCardController.getInstance();
+        creditCardController.setCreditCard(card);
+        responseController.setSuccess(creditCardController.getName() + " is added successfully :)");
         return response;
     }
 
@@ -151,7 +153,7 @@ public class CustomerAPI {
         String password = map.get("password");
         CreditCard card;
         try {
-            card = customerController.getCard(id);
+            card = customerController.chooseCard(id);
         } catch (Exception e) {
             responseController.setFailure(e.getMessage());
             return response;
@@ -206,6 +208,8 @@ public class CustomerAPI {
         }
         // take form data
         HashMap<String, String[]> fields = serviceController.getFormFields();
+        FormDataController formDataController = FormDataController.getInstance();
+        formDataController.setFormData(serviceController.getFormData());
         for (Map.Entry<String, String[]> entry : fields.entrySet()) {
             String name = entry.getKey();
             if (!map.containsKey(name)) {
@@ -224,7 +228,7 @@ public class CustomerAPI {
                 }
                 value = items[itemChoice - 1];
             }
-            serviceController.setFormDataField(name, value);
+            formDataController.setData(name, value);
         }
         // use discount if there is
         double before = serviceController.getCost();
@@ -247,7 +251,7 @@ public class CustomerAPI {
             int cardId = Integer.parseInt(map.get("cardId"));
             CreditCard creditCard;
             try {
-                creditCard = customerController.getCard(cardId);
+                creditCard = customerController.chooseCard(cardId);
                 paymentController.setBalance(creditCard);
             } catch (Exception e) {
                 responseController.setFailure(e.getMessage());

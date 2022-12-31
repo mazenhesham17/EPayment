@@ -34,10 +34,11 @@ public class AdminController {
         Vector<User> users = userData.getUsers();
         CategoryController categoryController = CategoryController.getInstance();
         Service service = categoryController.getCategory(id, 0);
+        CustomerController customerController = CustomerController.getInstance();
 
         for (User user : users) {
-            if (user instanceof Customer customer) {
-                discountController.setDiscountData(customer.getDiscountData());
+            if (user instanceof Customer) {
+                discountController.setDiscountData(customerController.getDiscountData());
                 discountController.addSpecificDiscount(discount, service);
             }
         }
@@ -47,9 +48,10 @@ public class AdminController {
         DiscountController discountController = DiscountController.getInstance();
         UserData userData = UserData.getInstance();
         Vector<User> users = userData.getUsers();
+        CustomerController customerController = CustomerController.getInstance();
         for (User user : users) {
-            if (user instanceof Customer customer) {
-                discountController.setDiscountData(customer.getDiscountData());
+            if (user instanceof Customer) {
+                discountController.setDiscountData(customerController.getDiscountData());
                 discountController.addOverallDiscount(discount);
             }
         }
@@ -66,7 +68,9 @@ public class AdminController {
     public Refund chooseRefund(int id) throws Exception {
         Vector<Refund> refunds = admin.getRefunds();
         for (Refund refund : refunds) {
-            if (refund.getId() == id)
+            RefundController refundController = RefundController.getInstance();
+            refundController.setRefund(refund);
+            if (refundController.getId() == id)
                 return refund;
         }
         throw new Exception("There is no refund with id " + id);

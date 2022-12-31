@@ -102,10 +102,10 @@ public class DiscountController {
     public void returnDiscounts(Vector<Discount> discounts) {
         for (Discount discount : discounts) {
             if (discount instanceof OverallDiscount) {
-                discountController.addOverallDiscount(discount);
+                addOverallDiscount(discount);
             } else {
                 SpecificDiscount specificDiscount = (SpecificDiscount) discount;
-                discountController.addSpecificDiscount(specificDiscount, specificDiscount.getCategory());
+                addSpecificDiscount(specificDiscount, specificDiscount.getCategory());
             }
         }
     }

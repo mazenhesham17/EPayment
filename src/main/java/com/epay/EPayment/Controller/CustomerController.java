@@ -17,7 +17,6 @@ import com.epay.EPayment.Transaction.RefundTransaction;
 import com.epay.EPayment.Transaction.Transaction;
 import com.epay.EPayment.Util.Container;
 
-import java.util.HashMap;
 import java.util.Vector;
 
 public class CustomerController {
@@ -41,8 +40,8 @@ public class CustomerController {
     }
 
     public Vector<Container> searchServices(String sub) throws Exception {
-        Search search = new ConcreteSearch();
         ServiceController serviceController = ServiceController.getInstance();
+        Search search = new ConcreteSearch();
         return serviceController.getWebView(search.find(sub));
     }
 
@@ -51,7 +50,7 @@ public class CustomerController {
         return serviceController.chooseService(services, index);
     }
 
-    public CreditCard getCard(int id) throws Exception {
+    public CreditCard chooseCard(int id) throws Exception {
         if (customer.getCards().isEmpty())
             throw new Exception("You don't have any cards :( ");
         if (id < 1 || id > customer.getCards().size())
@@ -65,25 +64,15 @@ public class CustomerController {
         walletController.deposit(card, cost, password);
     }
 
-    public void setFormDataField(String key, String value) {
-        ServiceController serviceController = ServiceController.getInstance();
-        serviceController.setFormDataField(key, value);
-    }
-
     public Wallet getWallet() {
         return customer.getWallet();
-    }
-
-    public HashMap<String, String[]> getFields() {
-        ServiceController serviceController = ServiceController.getInstance();
-        return serviceController.getFormFields();
     }
 
     public DiscountData getDiscountData() {
         return customer.getDiscountData();
     }
 
-    public Vector<Container> showAllDiscounts() throws Exception {
+    public Vector<Container> getAllDiscounts() throws Exception {
         DiscountController discountController = DiscountController.getInstance();
         discountController.setDiscountData(customer.getDiscountData());
         return discountController.getWebDiscounts();
@@ -104,18 +93,19 @@ public class CustomerController {
 
     public void refund(Refund refund) throws Exception {
         Transaction transaction = refund.getTransaction();
+        TransactionController transactionController = TransactionController.getInstance();
         if (transaction instanceof PaymentTransaction) {
             WalletController walletController = WalletController.getInstance();
             walletController.setWallet(customer.getWallet());
-            walletController.deposit(transaction.getAmount());
+            walletController.deposit(transactionController.getAmount());
         } else if (transaction instanceof ChargeTransaction) {
             CreditCardController creditCardController = CreditCardController.getInstance();
             creditCardController.setCreditCard(((ChargeTransaction) transaction).getCreditCard());
-            creditCardController.deposit(transaction.getAmount());
+            creditCardController.deposit(transactionController.getAmount());
         } else {
             throw new Exception("You can not make refund in Refunded requests ");
         }
-        Transaction refundTransaction = new RefundTransaction(transaction.getCustomer(), transaction.getAmount(), refund);
+        Transaction refundTransaction = new RefundTransaction(transactionController.getCustomer(), transactionController.getAmount(), refund);
         addTransaction(refundTransaction);
     }
 

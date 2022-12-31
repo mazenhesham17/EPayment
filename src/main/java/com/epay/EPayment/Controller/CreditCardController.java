@@ -20,6 +20,10 @@ public class CreditCardController {
         return creditCardController;
     }
 
+    public String getName() {
+        return creditCard.getName();
+    }
+
     public void setCreditCard(CreditCard creditCard) {
         this.creditCard = creditCard;
     }

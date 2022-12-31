@@ -17,7 +17,7 @@ public class WalletPayment extends Payment {
     }
 
     @Override
-    public Payment clone(int index) {
+    public Payment clone(int dummy) {
         WalletPayment walletPayment = new WalletPayment(new PaymentDetails());
         walletPayment.setId(this.getId());
         return walletPayment;

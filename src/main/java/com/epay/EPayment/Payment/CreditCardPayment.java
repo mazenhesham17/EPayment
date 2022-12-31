@@ -34,7 +34,7 @@ public class CreditCardPayment extends Payment {
     }
 
     @Override
-    public Payment clone(int index) {
+    public Payment clone(int dummy) {
         CreditCardPayment creditCardPayment = new CreditCardPayment(new PaymentDetails());
         creditCardPayment.setId(this.getId());
         return creditCardPayment;
